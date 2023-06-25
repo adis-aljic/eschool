@@ -1,0 +1,22 @@
+.btn{
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 30%;
+  display: flex;
+  justify-self: center;
+}
+
+.list{
+
+  overflow-y: scroll;
+  min-height: 60vh;
+}
+
+.list li{
+  background-color: aqua;
+  border: 1px dashed blue;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-right: 2rem;
+
+}

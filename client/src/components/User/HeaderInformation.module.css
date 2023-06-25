@@ -1,0 +1,50 @@
+.navigation{
+    display: flex;
+    justify-content: space-evenly;
+    /* gap: 3rem; */
+}
+
+
+.navigationMain{
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigationMain Button {
+    background-color: yellow;
+}
+.navigationMain a{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 1rem;
+    /* width: 5rem; */
+    /* margin: 1rem; */
+}
+.eschoolBrand{
+    font-size: 2em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.eschoolBrand img {
+    margin-right: 2rem;
+
+}
+@media only screen and (max-width: 980px) {
+    .eschoolBrand{
+        justify-self: flex-start;
+    }
+    .navigationMain{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .navigationMain a{
+        display: flex;
+        /* gap: 1rem; */
+        margin: 0.5rem;
+        width: 15rem;
+        justify-content: center;
+
+    }
+}
