@@ -58,8 +58,10 @@ const RegistrerClass = () => {
       })
       return    }
     const user = JSON.parse(localStorage.getItem('user'));
-    fetch('http://localhost:4000/api/classes/addclass', {
+    // fetch('http://localhost:4000/api/classes/addclass', {
       // fetch("https://teacher-aid.onrender.com/api/classes/addclass", {
+        fetch("https://eschool-pw0m.onrender.com/api/classes/addclass", {
+
 
       method: 'POST',
       mode: 'cors',
