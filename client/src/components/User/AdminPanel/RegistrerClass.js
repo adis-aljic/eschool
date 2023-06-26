@@ -1,11 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
-// import Button from '../../UI/Button';
 import Button from 'react-bootstrap/esm/Button';
-import Card from '../../UI/Card';
 import Form from 'react-bootstrap/Form';
 import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
 import styles from "./AdminPanel.module.css"
+import { useNavigate } from "react-router-dom";
 const RegistrerClass = () => {
   const [searchSchool, setSearchSchool] = useState('');
   const [filteredSchool, setFilteredSchool] = useState([]);
@@ -15,6 +14,8 @@ const RegistrerClass = () => {
   const [myClasses, setMyClasses] = useState(JSON.parse(localStorage.getItem("classList")))
   const [inProgress, setInProgress] = useState(false)
   const [isError, setIsError] = useState(null)
+  
+  const Navigate = useNavigate();
   useEffect(()=>{
     // fetch("http://localhost:4000/api/classes/list") 
         //  fetch("https://teacher-aid.onrender.com/api/classes/list")

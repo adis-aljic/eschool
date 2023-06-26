@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import styles from './AdminPanel.module.css';
 import Loader from '../../UI/Loader';
+import { useNavigate } from "react-router-dom";
+import OpenModal from '../../UI/Modal';
+
 const ClassesList = (props) => {
+  const Navigate = useNavigate();
   const [classes, setClasses] = useState([]);
  const [inProgress, setInProgress] = useState(false)
+ const [isError, setIsError] = useState(null)
 
   const user = JSON.parse(localStorage.getItem("user"))
   useEffect(() => {
@@ -59,6 +64,11 @@ const ClassesList = (props) => {
 
   return (
     <>
+    {isError && <OpenModal 
+    title={isError.title}
+    body = {isError.message}
+    onHide = {()=>setIsError(null)}
+    ></OpenModal>}
       <div className="container">
         <div className='row'>
           <div className='col'>
