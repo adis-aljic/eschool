@@ -4,7 +4,10 @@ import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
+
 const AddStudent = (props) => {
+  const Navigate = useNavigate();
   const [enteredFirstName, setEnteredFirstName] = useState('');
   const [enteredLastName, setEnteredLastName] = useState('');
   const [enteredAbrevation, setEnteredAbrevation] = useState('');

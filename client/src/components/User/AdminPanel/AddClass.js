@@ -3,8 +3,10 @@ import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
-
+import { useNavigate } from "react-router-dom";
 const AddClass = (props) => {
+  const Navigate = useNavigate();
+  
   const [enteredSchool, setEnteredSchool] = useState('');
   const [enteredClass, setEnteredClass] = useState('');
   const [enteredDepartmant, setEnteredDepartmant] = useState('');
