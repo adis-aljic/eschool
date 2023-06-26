@@ -60,7 +60,8 @@ export class UserController {
 
     @Post("api/user/newstudent")
     async addStudent(@Body() createStudentDTO : CreateStudentDTO): Promise <any>{
-
+            console.log(createStudentDTO);
+            
         return this.userService.addStudent(createStudentDTO)
     }
     @Post("api/user/findAndAddStudent")

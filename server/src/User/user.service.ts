@@ -182,7 +182,7 @@ export class UserService {
 
 
         async addStudent(createStudentDTO : CreateStudentDTO): Promise <any>{
-            // console.log(createStudentDTO);
+            console.log(createStudentDTO);
             
             const foundClass = await this.classReposotory.findOne(
                 {
@@ -213,7 +213,7 @@ export class UserService {
                 }
             })
             await this.userRepository.save(newStudent)
-            // console.log(newStudent);
+            console.log(newStudent);
             foundClass.user = [...foundClass.user ,  newStudent]
             // console.log(foundClass, " found class");
             // console.log(foundClass);
