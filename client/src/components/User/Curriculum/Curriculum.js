@@ -2,13 +2,17 @@ import React, { useRef, useState } from 'react';
 import ListCurriculum from './ListCurriculum';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
+
 import OpenModal from '../../UI/Modal';
+
 const Curriculum = () => {
   const [inputText, setInputText] = useState('');
   const [classCode, setClassCode] = useState("")
   const [addedCurriculum, setAddedCurriculum] = useState(false)
   const [isError, setIsError] = useState(null)
-
+  
+  const Navigate = useNavigate();
   const textAreaRef = useRef()
   const inputClassCodeRef = useRef()
   const user = JSON.parse(localStorage.getItem("user"))

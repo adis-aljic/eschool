@@ -6,6 +6,7 @@ import Button from "../UI/Button";
 import AuthContex from "../../store/Auth-ctx";
 import "cors";
 import { useNavigate } from "react-router-dom";
+
 import Loader from "../UI/Loader";
 
 const Login = (props) => {
@@ -69,7 +70,6 @@ const Login = (props) => {
     const password = inputedRegPassword.current.value;
     const first_name = inputedFirstName.current.value;
     const last_name = inputedLastName.current.value;
-    const subject = inputedSubject.current.value;
     if (!email.includes("@")) {
       setIsError({
         title: "Email is not valid",

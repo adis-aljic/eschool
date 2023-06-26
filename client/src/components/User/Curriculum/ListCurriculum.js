@@ -13,22 +13,16 @@ import {
   secondDate,
   getClassesPerMonths,
 } from "./functionForCalculatingMonthlyCurriculums";
+import { useNavigate } from "react-router-dom";
 
 const ListCurriculum = (props) => {
+  const Navigate = useNavigate();
   const [curriculum, setCurriculum] = useState(
     JSON.parse(localStorage.getItem("curriculumList"))
   );
+  const [isError, setIsError] = useState(null)
   const [monthlyPlan, setMonthlyPlan] = useState(false);
-  const [enteredSept, setEnteredSept] = useState("");
-  const [enteredOkt, setEnteredOkt] = useState("");
-  const [enteredNov, setEnteredNov] = useState("");
-  const [enteredDec, setEnteredDec] = useState("");
-  const [enteredJan, setEnteredJan] = useState("");
-  const [enteredFeb, setEnteredFeb] = useState("");
-  const [enteredMart, setEnteredMart] = useState("");
-  const [enteredApr, setEnteredApr] = useState("");
-  const [enteredMay, setEnteredMay] = useState("");
-  const [enteredJune, setEnteredJune] = useState("");
+
   const [numberOfClassesPerWeek, setNumberOfClassesPerWeek] = useState(null);
   const [classCode, setClassCode] = useState("");
   const [pdf, setPdf] = useState(false);
@@ -137,7 +131,6 @@ const ListCurriculum = (props) => {
       numberOfClassesPerWeek,
       choosenMonth
     );
-    console.log(classesPerMonths);
     const data = {
       month: choosenMonth,
       school: classes.find((x) => x.abbrevation === classCode).school,
@@ -181,6 +174,7 @@ const ListCurriculum = (props) => {
         
           title="Monthly plan"
           onHide={monthlyPlanCloseHandler}
+          message = {isError.message}
           show={monthlyPlan}
         body = {
 
