@@ -253,27 +253,29 @@ const Login = (props) => {
         <OpenModal
         show={forgotPass}
           title={"Forgoten password"}
-          body={"After you enter your new email and new password you will recieved email with password"}
+          message={"After you enter your new email and new password you will recieved email with password"}
           onHide={clearForgetenPasswordHandler}
-        
-        >
-          <input
-            placeholder="email"
-            type="email"
-            value={inputEmailForgetEmail}
-            ref={inputedForgetPassEmailRef}
-            onChange={forgetPassEmailHandler}
-          ></input>
-          <form onSubmit={forgottenPassworOnSubmitdHandler}>
+         body ={
+
+           <form onSubmit={forgottenPassworOnSubmitdHandler}>
+           <input
+           placeholder="email"
+           type="email"
+           value={inputEmailForgetEmail}
+           ref={inputedForgetPassEmailRef}
+           onChange={forgetPassEmailHandler}
+           ></input>
             <Button type="submit">Send</Button>
           </form>
+          }
+        >
         </OpenModal>
       )}
       {isError && (
         <OpenModal
           title={isError.title}
-          message={isError.message}
-          onConfirm={errorHandler}
+          body={isError.message}
+          onHide={errorHandler}
         />
       )}
       <div className="main">
