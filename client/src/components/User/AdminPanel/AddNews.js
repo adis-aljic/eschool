@@ -3,7 +3,7 @@ import * as filestack from 'filestack-js';
 
 import Form from 'react-bootstrap/Form';
 
-import { API_KEY } from '../../../firestack';
+import { API_KEY } from ' /etc/secrets/firestack.js';
 import OpenModal from '../../UI/Modal';
 import Loader from '../../UI/Loader';
 import Button from 'react-bootstrap/esm/Button';
