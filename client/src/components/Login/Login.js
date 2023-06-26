@@ -182,12 +182,16 @@ const Login = (props) => {
       .then((resolve) => resolve.json())
       .then((data) => {
         ctx.onLogin(data);
+          setIsError({title : data.title,
+                    message : data.message})
+        
         if (data.isAuth && data.role === "teacher") {
           Navigate("/home");
         }
         else if(data.isAuth && data.role === "student"){
           Navigate("/student")
         }
+        
       }).catch(error =>{
         setIsError({
           title: "Something went wrong",
