@@ -37,8 +37,10 @@ const ClassesList = (props) => {
     e.preventDefault()
       setInProgress(true)
       
-      fetch('http://localhost:4000/api/classes/myclasses', {
+      // fetch('http://localhost:4000/api/classes/myclasses', {
         // fetch("https://teacher-aid.onrender.com/api/classes/myclasses", {
+          fetch("https://eschool-pw0m.onrender.com/api/classes/myclasses", {
+
 
         method: 'POST',
       mode: 'cors',
