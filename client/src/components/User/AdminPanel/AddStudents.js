@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 
 import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
-import styles from "./AddStudents.module.css"
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 const AddStudent = (props) => {
@@ -63,8 +62,9 @@ const AddStudent = (props) => {
 
         return
       }
-    fetch("http://localhost:4000/api/user/findAndAddStudent",{
+    // fetch("http://localhost:4000/api/user/findAndAddStudent",{
       // fetch("https://teacher-aid.onrender.com/api/user/findAndAddStudent", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/findAndAddStudent", {
 
       method : "POST",
       mode : "cors",
@@ -123,8 +123,9 @@ const AddStudent = (props) => {
         })
       return
     }
-    fetch('http://localhost:4000/api/user/newstudent', {
+    // fetch('http://localhost:4000/api/user/newstudent', {
       // fetch("https://teacher-aid.onrender.com/api/user/newstudent", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/newstudent", {
 
       method: 'POST',
       mode: 'cors',

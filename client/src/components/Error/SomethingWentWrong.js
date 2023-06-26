@@ -13,7 +13,7 @@ return (
     <p>We recieved error log and we will fix it shrotly ...</p>
     <p>Please click on button to return to home page or reload page</p>
 
-    <Button onClick={ctx.PageNotFoundHandler}>Return to home page</Button>
+    <Button onClick={ctx.pageNotFoundHandler}>Return to home page</Button>
 </Card>
 
 )

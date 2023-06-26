@@ -30,8 +30,10 @@ const Student = (props) => {
 
   useEffect(() => {
 
-    fetch("http://localhost:4000/api/news/studentNews",{
+    // fetch("http://localhost:4000/api/news/studentNews",{
       // fetch("https://teacher-aid.onrender.com/api/news/studentNews", {
+        fetch("https://eschool-pw0m.onrender.com/api/news/studentNews", {
+
 
     method: 'GET',
     mode: 'cors',
@@ -51,7 +53,9 @@ const Student = (props) => {
 
     // fetch("https://teacher-aid.onrender.com/api/user", {
 
-    fetch("http://localhost:4000/api/user", {
+    // fetch("http://localhost:4000/api/user", {
+      fetch("https://eschool-pw0m.onrender.com/api/user", {
+
       mode: "cors",
       method: "POST",
       body: JSON.stringify({
@@ -64,8 +68,10 @@ const Student = (props) => {
         setInfo(data[0]);
         localStorage.setItem("profile", JSON.stringify(data[0]));
       });
-    fetch("http://localhost:4000/api/user/teachers", {
+    // fetch("http://localhost:4000/api/user/teachers", {
       // fetch("https://teacher-aid.onrender.com/api/user/teachers", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/teachers", {
+
 
       mode: "cors",
       method: "GET",

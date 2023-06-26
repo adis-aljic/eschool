@@ -12,7 +12,7 @@ return (
     <h1>404 Page not found</h1>
     <p>Please click on button to return to home page!!</p>
 
-    <Button onClick={ctx.PageNotFoundHandler}>Return to home page</Button>
+    <Button onClick={ctx.pageNotFoundHandler}>Return to home page</Button>
 </Card>
 
 )

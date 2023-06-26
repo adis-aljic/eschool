@@ -24,6 +24,7 @@ const AuthContex = React.createContext({
   navigationStudentHandler : () =>{},
   navigationMessageHandler : () =>{},
   adminPanelNav: '',
+  pageNotFoundHandler : ()=>{}
 });
 
 export const AuthContexProvider = (props) => {
@@ -31,11 +32,7 @@ export const AuthContexProvider = (props) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isRegistred, setIsRegistred] = useState(null);
   const [navigation, setNavigation] = useState(null);
-  // const [navAddClass, setNavAddClass] = useState(false);
-  // const [navAddStudent, setNavAddStudent] = useState(false);
-  // const [navRegisterClass, setNavRegisterClass] = useState(false);
-  // const [navUnregisterClass, setNavUnregisterClass] = useState(false);
-  // const [navAddNews, setNavAddNews] = useState(false);
+
   const [adminPanelNav, setNav] = useState('');
 const Navigate = useNavigate()
   let Auth = localStorage.getItem('Logged_in');
@@ -97,29 +94,37 @@ const Navigate = useNavigate()
   };
 
   const addClassNavHandler = () => {
-    // setNavAddClass(true);
     setNav('addClass');
   };
   const addStudentNavHandler = () => {
-    // setNavAddStudent(true);
     setNav('addStudent');
   };
   const RegisterClassNavHandler = () => {
-    // setNavRegisterClass(true);
     setNav('regClass');
   };
   const UnregisterClassNavHandler = () => {
-    // setNavUnregisterClass(true);
     setNav('unRegClass');
   };
   const AddNewsNavHandler = () => {
-    // setNavAddNews(true);
     setNav('addNews');
   };
+  const pageNotFoundHandler = () =>{
+
+    if (user.isAuth && user.role === "teacher") {
+      Navigate("/home");
+    }
+    else if(user.isAuth && user.role === "student"){
+      Navigate("/student")
+    }
+    else {
+      Navigate("/login")
+    }
+  }
 
   return (
     <AuthContex.Provider
       value={{
+        pageNotFoundHandler,
         isLogged,
         onLogin: loginHandler,
         onRegistred: registredHandler,

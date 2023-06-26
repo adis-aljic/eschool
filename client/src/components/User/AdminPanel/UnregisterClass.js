@@ -1,9 +1,7 @@
 import { useRef, useState } from "react";
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
-import Card from "../../UI/Card";
 import Loader from "../../UI/Loader";
-import styles from "./AdminPanel.module.css";
 import OpenModal from "../../UI/Modal";
 import { Navigate } from "react-router-dom";
 const RegistrerClass = () => {
@@ -44,8 +42,10 @@ const RegistrerClass = () => {
       return;
     }
     const user = JSON.parse(localStorage.getItem("user"));
-    fetch("http://localhost:4000/api/classes/unregisterclass", {
+    // fetch("http://localhost:4000/api/classes/unregisterclass", {
       // fetch("https://teacher-aid.onrender.com/api/classes/unregisterclass", {
+        fetch("https://eschool-pw0m.onrender.com/api/classes/unregisterclass", {
+
 
       method: "POST",
       mode: "cors",

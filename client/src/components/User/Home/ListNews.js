@@ -7,8 +7,10 @@ const ListNews = props =>{
     const [data, setData] = useState([])
     useEffect(()=>{
 
-        fetch("http://localhost:4000/api/news/list",{
+        // fetch("http://localhost:4000/api/news/list",{
           // fetch("https://teacher-aid.onrender.com/api/news/list", {
+            fetch("https://eschool-pw0m.onrender.com/api/news/list", {
+
 
         method: 'POST',
         mode: 'cors',

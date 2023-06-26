@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 // import Button from '../../UI/Button';
 import Button from 'react-bootstrap/esm/Button';
-import Form from 'react-bootstrap/Form';
 import Card from '../../UI/Card';
+import Form from 'react-bootstrap/Form';
 import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
 import styles from "./AdminPanel.module.css"
@@ -16,8 +16,9 @@ const RegistrerClass = () => {
   const [inProgress, setInProgress] = useState(false)
   const [isError, setIsError] = useState(null)
   useEffect(()=>{
-    fetch("http://localhost:4000/api/classes/list") 
+    // fetch("http://localhost:4000/api/classes/list") 
         //  fetch("https://teacher-aid.onrender.com/api/classes/list")
+        fetch("https://eschool-pw0m.onrender.com/api/classes/list")
 
     .then(resolve => resolve.json())
     .then(data => {

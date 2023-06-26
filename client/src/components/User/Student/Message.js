@@ -43,7 +43,9 @@ const Message = props =>{
 
 
         // fetch("http://localhost:4000/api/user/message",{
-            fetch("https://teacher-aid.onrender.com/api/user/message", {
+            // fetch("https://teacher-aid.onrender.com/api/user/message", {
+                fetch("https://eschool-pw0m.onrender.com/api/user/message", {
+
 
             method :"POST",
             mode : "cors",

@@ -96,8 +96,9 @@ const Login = (props) => {
       });
       return;
     }
-    fetch("http://localhost:4000/api/user/newuser", {
+    // fetch("http://localhost:4000/api/user/newuser", {
       // fetch("https://teacher-aid.onrender.com/api/user/newuser", {
+      fetch("https://eschool-pw0m.onrender.com/api/user/newuser", {
 
       method: "POST",
       mode: "cors",
@@ -106,7 +107,6 @@ const Login = (props) => {
         password: `${password}`,
         firstName: `${first_name}`,
         lastName: `${last_name}`,
-        // subject: `${subject}`,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -165,8 +165,10 @@ const Login = (props) => {
       return;
     }
 
-    fetch("http://localhost:4000/api/user/login", {
+    // fetch("http://localhost:4000/api/user/login", {
       // fetch("https://teacher-aid.onrender.com/api/user/login", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/login", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -179,7 +181,6 @@ const Login = (props) => {
     })
       .then((resolve) => resolve.json())
       .then((data) => {
-        console.log(data);
         ctx.onLogin(data);
         if (data.isAuth && data.role === "teacher") {
           Navigate("/home");
@@ -205,8 +206,10 @@ const Login = (props) => {
   const forgottenPassworOnSubmitdHandler = (e) => {
     e.preventDefault();
     setInProgress(true);
-    fetch("http://localhost:4000/api/user/forgetenpassword", {
+    // fetch("http://localhost:4000/api/user/forgetenpassword", {
       // fetch("https://teacher-aid.onrender.com/api/user/forgetenpassword", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/forgetenpassword", {
+
       
       method: "POST",
       mode: "cors",

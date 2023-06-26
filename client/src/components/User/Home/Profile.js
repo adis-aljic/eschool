@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import Card from "../../UI/Card";
-
 import React from "react";
 import "./Profile.css"
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
-import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import OpenModal from "../../UI/Modal";
 const Profile = (props) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -17,7 +13,6 @@ const Profile = (props) => {
     JSON.parse(localStorage.getItem("profile"))
   );
   const [students, setStudents] = useState([]);
-  const [isAddClicked, setIsAddCliked] = useState(false);
   const [studentName, setStudentName] = useState(null);
   const [enteredGrade, setEnteredGrade] = useState(null);
   const [enteredDeleteGrade, setEnteredDeleteGrade] = useState(null);
@@ -65,16 +60,20 @@ const Profile = (props) => {
     setEnteredNoteNbr(enteredNoteNbrRef.current.value);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/user/getstudents", {
+    // fetch("http://localhost:4000/api/user/getstudents", {
       // fetch("https://teacher-aid.onrender.com/api/user/getstudents", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
+
       mode: "cors",
       method: "GET",
     })
       .then((resolve) => resolve.json())
       .then((results) => setStudents(results));
 
-    fetch("http://localhost:4000/api/user", {
+    // fetch("http://localhost:4000/api/user", {
       // fetch("https://teacher-aid.onrender.com/api/user", {
+        fetch("https://eschool-pw0m.onrender.com/api/user", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -96,8 +95,10 @@ const Profile = (props) => {
   const addGradeHandler = (e) => {
     // e.preventDefault();
 
-    fetch("http://localhost:4000/api/grade/add", {
+    // fetch("http://localhost:4000/api/grade/add", {
       // fetch("https://teacher-aid.onrender.com/api/grade/add", {
+        fetch("https://eschool-pw0m.onrender.com/api/grade/add", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -121,8 +122,10 @@ const Profile = (props) => {
   };
   const deleteGradeHandler = (e) => {
     // e.preventDefault();
-    fetch("http://localhost:4000/api/grade/delete", {
+    // fetch("http://localhost:4000/api/grade/delete", {
       // fetch("https://teacher-aid.onrender.com/api/grade/delete", {
+        fetch("https://eschool-pw0m.onrender.com/api/grade/delete", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -144,8 +147,10 @@ const Profile = (props) => {
   };
   const addNoteHandler = (e) => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/note/add", {
+    // fetch("http://localhost:4000/api/note/add", {
       // fetch("https://teacher-aid.onrender.com/api/note/add", {
+        fetch("https://eschool-pw0m.onrender.com/api/note/add", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -169,8 +174,10 @@ const Profile = (props) => {
   };
   const deleteNoteHandler = (e) => {
     e.preventDefault();
-    fetch("http://localhost:4000/api/note/delete", {
+    // fetch("http://localhost:4000/api/note/delete", {
       // fetch("https://teacher-aid.onrender.com/api/note/delete", {
+        fetch("https://eschool-pw0m.onrender.com/api/note/delete", {
+
       method: "POST",
       mode: "cors",
       body: JSON.stringify({

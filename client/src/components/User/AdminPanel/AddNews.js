@@ -1,8 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import styles from './AddNews.module.css';
 import * as filestack from 'filestack-js';
-// import Button from '../../UI/Button';
-// import Card from '../../UI/Card';
+
 import Form from 'react-bootstrap/Form';
 
 import { API_KEY } from '../../../firestack';
@@ -28,8 +26,9 @@ function UploadFile() {
 
   useEffect(() => {
     setInProgress(true)
-    fetch('http://localhost:4000/api/classes/myclasses',{
+    // fetch('http://localhost:4000/api/classes/myclasses',{
       // fetch("https://teacher-aid.onrender.com/api/classes/myclasses", {
+        fetch("https://eschool-pw0m.onrender.com/api/classes/myclasses", {
 
       method: 'POST',
       mode: 'cors',
@@ -113,8 +112,10 @@ const uploadFileHandler = (event) => {
         message: 'Please check is class code valid or is class added',
       });
     }
-    fetch("http://localhost:4000/api/news",{
+    // fetch("http://localhost:4000/api/news",{
       // fetch("https://teacher-aid.onrender.com/api/news", {
+        fetch("https://eschool-pw0m.onrender.com/api/news", {
+
 
       method:"POST",
         body : JSON.stringify({
@@ -178,12 +179,12 @@ const uploadFileHandler = (event) => {
           onConfirm={errorHandler}
         />
       )}
-          {isValidCode && uploadFinished  && <p className={styles.suscesfull}>News is suscesfully added!</p>}
-          {message && <p className={styles.suscesfull}>{message}</p>}
+          {isValidCode && uploadFinished  && <p >News is suscesfully added!</p>}
+          {message && <p >{message}</p>}
       <Form onSubmit={handleFormSubmit}>
         <h2>Add news</h2>
-        <Form.Control type='text' className={styles.input} ref={classCodeRef} required={true} value={eneteredClassCode} onChange={classCodeHandler} placeholder='Enter Class Code'></Form.Control>
-        <Form.Control type='text' className={styles.input} ref={inputTitleRef} required={true} value={enteredTitle} onChange={titleHandler} placeholder='Enter Title'></Form.Control>
+        <Form.Control type='text'  ref={classCodeRef} required={true} value={eneteredClassCode} onChange={classCodeHandler} placeholder='Enter Class Code'></Form.Control>
+        <Form.Control type='text'  ref={inputTitleRef} required={true} value={enteredTitle} onChange={titleHandler} placeholder='Enter Title'></Form.Control>
       
         <div class="form-floating">
   <textarea class="form-control" placeholder="Enter news ..." id="floatingTextarea2" 
