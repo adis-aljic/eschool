@@ -276,6 +276,7 @@ const Login = (props) => {
           title={isError.title}
           body={isError.message}
           onHide={errorHandler}
+          show={isError}
         />
       )}
       <div className="main">
