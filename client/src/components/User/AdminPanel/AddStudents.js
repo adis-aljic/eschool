@@ -147,7 +147,7 @@ const AddStudent = (props) => {
     })
       .then((resolve) => resolve.json())
       .then((data) => {
-
+        console.log(data);
         setEnteredFirstName("")
         setEnteredLastName("")
         setEnteredAbrevation("")
