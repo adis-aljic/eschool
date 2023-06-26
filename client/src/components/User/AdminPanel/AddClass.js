@@ -115,6 +115,7 @@ const AddClass = (props) => {
 <>
 {isError && (
         <OpenModal
+        show={isError}
           title={isError.title}
           body={isError.message}
           onHide={errorHandler}

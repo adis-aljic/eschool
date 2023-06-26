@@ -112,9 +112,11 @@ const RegistrerClass = () => {
     <>
       {isError && (
         <OpenModal
+        show={isError}
+
           title={isError.title}
           body={isError.message}
-          onConfirm={errorHandler}
+          onHide={errorHandler}
         />
       )}
       <div className="container">

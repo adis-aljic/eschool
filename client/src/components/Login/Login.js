@@ -243,17 +243,19 @@ const Login = (props) => {
     <>
       {recievedNewPass && (
         <OpenModal
-          title="Pasword Recovered"
-          message="Please check your new password in email!"
-          onConfirm={clearRecievedNewPass}
+        show={recievedNewPass}
+          title={"Pasword Recovered"}
+          body={"Please check your new password in email!"}
+          onHide={clearRecievedNewPass}
         ></OpenModal>
       )}
       {forgotPass && (
         <OpenModal
-          title="Forgoten password"
-          message="After you enter your new email and new password you will recieved email with password"
-          onConfirm={clearForgetenPasswordHandler}
-          className="none"
+        show={forgotPass}
+          title={"Forgoten password"}
+          body={"After you enter your new email and new password you will recieved email with password"}
+          onHide={clearForgetenPasswordHandler}
+        
         >
           <input
             placeholder="email"

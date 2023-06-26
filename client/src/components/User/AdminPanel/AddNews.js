@@ -174,9 +174,10 @@ const uploadFileHandler = (event) => {
     <>
          {isError && (
         <OpenModal
+        show={isError}
           title={isError.title}
           body={isError.message}
-          onConfirm={errorHandler}
+          onHide={errorHandler}
         />
       )}
           {isValidCode && uploadFinished  && <p >News is suscesfully added!</p>}

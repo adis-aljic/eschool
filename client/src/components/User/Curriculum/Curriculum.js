@@ -84,6 +84,8 @@ if(addedCurriculum){
     <>
 
     {isError && <OpenModal
+            show={isError}
+
     title = {isError.title}
       body = {isError.message}
       onHide = {()=>setIsError(null)}

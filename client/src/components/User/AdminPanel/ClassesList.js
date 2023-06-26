@@ -67,6 +67,7 @@ const ClassesList = (props) => {
     {isError && <OpenModal 
     title={isError.title}
     body = {isError.message}
+    show ={isError}
     onHide = {()=>setIsError(null)}
     ></OpenModal>}
       <div className="container">

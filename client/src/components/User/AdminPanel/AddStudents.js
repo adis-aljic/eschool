@@ -180,6 +180,8 @@ const AddStudent = (props) => {
           title={isError.title}
           body={isError.message}
           message={message}
+          show={isError}
+
           onHide={errorHandler}
         />
       )}
