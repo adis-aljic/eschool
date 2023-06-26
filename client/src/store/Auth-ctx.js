@@ -110,15 +110,15 @@ const Navigate = useNavigate()
   };
   const pageNotFoundHandler = () =>{
 
-    if (user.isAuth && user.role === "teacher") {
-      Navigate("/home");
+    if ( user && user.isAuth && user.role === "teacher") {
+     return Navigate("/home");
     }
-    else if(user.isAuth && user.role === "student"){
-      Navigate("/student")
+     if(user && user.isAuth && user.role === "student"){
+     return Navigate("/student")
     }
-    else {
-      Navigate("/login")
-    }
+    
+    return  Navigate("/login")
+    
   }
 
   return (

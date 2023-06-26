@@ -3,7 +3,6 @@ import './index.css';
 import Login from './components/Login/Login';
 import { useContext } from 'react';
 import AuthContex from './store/Auth-ctx';
-import Modal from './components/UI/Modal';
 import HeaderInformation from './components/User/HeaderInformation';
 import AddClass from './components/User/AdminPanel/AddClass';
 import AddStudent from './components/User/AdminPanel/AddStudents';
@@ -20,24 +19,26 @@ import Message from './components/User/Student/Message';
 import SomethingWentWrong from "./components/Error/SomethingWentWrong"
 import PageNotFound from "./components/Error/404"
 import { Navigate } from 'react-router-dom';
+import OpenModal from './components/UI/Modal';
 
 function App() { 
   
   const ctx = useContext(AuthContex);
-  console.log(ctx);
   return (
     <>
     <HeaderInformation user={ctx.user}></HeaderInformation>
       {ctx.isError && (
-        <Modal
+        <OpenModal
           title={ctx.isError.title}
-          message={ctx.isError.message}
-          onConfirm={ctx.errorHandler}
+          body={ctx.isError.message}
+          onHide={ctx.errorHandler}
         />
       )}
       <main>
         <Routes> 
-
+        <Route path='/error' element={<SomethingWentWrong></SomethingWentWrong>}></Route>
+                <Route path="/404" element={<PageNotFound />} />
+            <Route path="*" element={<Navigate to="/404" />} />
           <Route path="/login" element={!ctx.isLogged && <Login />}></Route>
           <Route path="/" element={!ctx.isLogged && <Login />}></Route>
           <Route
@@ -111,9 +112,7 @@ function App() {
               
               }>
                 </Route>
-                <Route path='/error' element={<SomethingWentWrong></SomethingWentWrong>}></Route>
-                <Route path="/404" element={<PageNotFound />} />
-            <Route path="*" element={<Navigate to="/404" />} />
+          
 
         </Routes>
       </main>
@@ -121,7 +120,7 @@ function App() {
 
     <div className="container text-center">
         {/* <div className='row'> */}
-      <small>Copyright &copy; Profa</small>
+      <small>Copyright &copy; <a href='https://adis-a-portfolio.netlify.app/'>Profa</a></small>
         {/* </div> */}
     </div>
   </footer>    </>
