@@ -31,7 +31,6 @@ const Student = (props) => {
   useEffect(() => {
 
     // fetch("http://localhost:4000/api/news/studentNews",{
-      // fetch("https://teacher-aid.onrender.com/api/news/studentNews", {
         fetch("https://eschool-pw0m.onrender.com/api/news/studentNews", {
 
 
@@ -51,7 +50,6 @@ const Student = (props) => {
     } 
         )
 
-    // fetch("https://teacher-aid.onrender.com/api/user", {
 
     // fetch("http://localhost:4000/api/user", {
       fetch("https://eschool-pw0m.onrender.com/api/user", {
@@ -69,7 +67,6 @@ const Student = (props) => {
         localStorage.setItem("profile", JSON.stringify(data[0]));
       });
     // fetch("http://localhost:4000/api/user/teachers", {
-      // fetch("https://teacher-aid.onrender.com/api/user/teachers", {
         fetch("https://eschool-pw0m.onrender.com/api/user/teachers", {
 
 
@@ -139,7 +136,6 @@ const Student = (props) => {
       </Tab>
       <Tab eventKey="classes" title="Classes" >
       <Accordion>
-        {console.log(info)}
           {info
             ? info.classes.map((schoolClass,index) => {
                 return (
