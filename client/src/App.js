@@ -22,8 +22,8 @@ import { Navigate } from 'react-router-dom';
 import OpenModal from './components/UI/Modal';
 
 function App() { 
-  
   const ctx = useContext(AuthContex);
+  console.log(ctx);
   return (
     <>
     <HeaderInformation user={ctx.user}></HeaderInformation>
@@ -36,9 +36,7 @@ function App() {
       )}
       <main>
         <Routes> 
-        <Route path='/error' element={<SomethingWentWrong></SomethingWentWrong>}></Route>
-                <Route path="/404" element={<PageNotFound />} />
-            <Route path="*" element={<Navigate to="/404" />} />
+        
           <Route path="/login" element={!ctx.isLogged && <Login />}></Route>
           <Route path="/" element={!ctx.isLogged && <Login />}></Route>
           <Route
@@ -76,11 +74,11 @@ function App() {
                 <div className='container'>
 
                 <div class="row">
-                    <div className="col ">
+                    <div className="col-md-6 ">
                     <ListNews ></ListNews>
 
                     </div>
-                    <div className="col ">
+                    <div className="col-md-6 ">
 
                     <Profile ></Profile>
                     </div>
@@ -92,7 +90,15 @@ function App() {
             element={
 
               ctx.isLogged &&  ctx.user.role === "teacher" && ctx.navigation === 'curicculum' && (
-                <Curriculum></Curriculum>
+                <div className='container'>
+                  <div className='row'>
+
+                  <div className='col'>
+
+                  <Curriculum></Curriculum>
+                  </div>
+                  </div>
+                </div>
                 )
               }>
                 </Route>
@@ -100,7 +106,15 @@ function App() {
             element={
 
               ctx.isLogged &&  ctx.user.role === "student" && ctx.navigation === 'student' && 
-                <Student></Student>
+              <div className='container'>
+              <div className='row'>
+
+              <div className='col'>
+
+              <Student></Student>
+              </div>
+              </div>
+            </div>
                 
               }>
                 </Route>
@@ -108,11 +122,21 @@ function App() {
             element={
 
               ctx.isLogged &&  ctx.user.role === "student" && ctx.navigation === 'message' && 
+              <div className='container'>
+              <div className='row'>
+
+              <div className='col'>
+
               <Message></Message>
-              
+              </div>
+              </div>
+            </div>              
               }>
                 </Route>
-          
+                <Route path='/error' element={<SomethingWentWrong></SomethingWentWrong>}></Route>
+                <Route path="/404" element={<PageNotFound />} />
+                <Route path="*" element={<SomethingWentWrong  />} />
+
 
         </Routes>
       </main>
