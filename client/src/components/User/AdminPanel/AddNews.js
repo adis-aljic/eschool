@@ -27,7 +27,6 @@ function UploadFile() {
   useEffect(() => {
     setInProgress(true)
     // fetch('http://localhost:4000/api/classes/myclasses',{
-      // fetch("https://teacher-aid.onrender.com/api/classes/myclasses", {
         fetch("https://eschool-pw0m.onrender.com/api/classes/myclasses", {
 
       method: 'POST',
@@ -113,7 +112,6 @@ const uploadFileHandler = (event) => {
       });
     }
     // fetch("http://localhost:4000/api/news",{
-      // fetch("https://teacher-aid.onrender.com/api/news", {
         fetch("https://eschool-pw0m.onrender.com/api/news", {
 
 

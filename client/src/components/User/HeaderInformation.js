@@ -48,7 +48,7 @@ const HeaderInformation = (props) => {
                 </LinkContainer>
               ): null}
               
-              { props.user  ?  props.user.role === "teacher" && (<NavDropdown title="Admin Panel" id="basic-nav-dropdown" >) 
+              { props.user  ?  props.user.role === "teacher" && (<NavDropdown title="Admin Panel" id="basic-nav-dropdown" > 
               <NavDropdown.Item>
               {props.user ? props.user.role === "teacher" && (
                 <LinkContainer to="/admin">

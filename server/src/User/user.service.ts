@@ -26,7 +26,7 @@ export class UserService {
 
         // console.log(user);
 
-        const url = `http://localhost:4000/api/user/auth/${user.id}`;
+        const url = `https://eschool-pw0m.onrender.com/api/user/auth/${user.id}`;
 
         await this.mailerService.sendMail({
             to: user.email,
@@ -60,7 +60,7 @@ export class UserService {
             await this.mailerService.sendMail({
                 to: checkIfUserExist.email,
                 subject: "Recovered Password",
-                template: "/.confirmation",
+                template: "confirmation",
                 context: {
                     name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
                     url: `Your new password is ${password}`
@@ -84,7 +84,7 @@ export class UserService {
 
         const newUser = new UserEntity() as any
         Object.assign(newUser, createUserDTO)
-        newUser.isAuth = true;
+        // newUser.isAuth = true;
 
         await this.userRepository.save(newUser)
         await this.userRepository.findOne({ where: { email: newUser.email } })
@@ -167,6 +167,8 @@ export class UserService {
             if(!foundClass) {
                 throw new HttpException("Class doesn't exist", HttpStatus.BAD_REQUEST)
             }
+            foundClass.user = [...foundClass.user ,  foundUser]
+            await this.classReposotory.save(foundClass)
             await this.mailerService.sendMail({
                 to: email,
                 subject: "New Class",
@@ -176,8 +178,6 @@ export class UserService {
                     url: `You are added to new class ${foundClass.schoolClass} ${foundClass.departmant} in school ${foundClass.school}`
                 }
             })
-            foundClass.user = [...foundClass.user ,  foundUser]
-            await this.classReposotory.save(foundClass)
         }
 
 
@@ -203,15 +203,6 @@ export class UserService {
             const newStudent = new UserEntity()
             Object.assign(newStudent, createStudentDTO)
             newStudent.isAuth = true
-            await this.mailerService.sendMail({
-                to: newStudent.email,
-                subject: "Password",
-                template: "/.confirmation",
-                context: {
-                    name: `${newStudent.firstName} ${newStudent.lastName}`,
-                    url: `Your new password is ${newStudent.password}`
-                }
-            })
             await this.userRepository.save(newStudent)
             console.log(newStudent);
             foundClass.user = [...foundClass.user ,  newStudent]
@@ -219,6 +210,15 @@ export class UserService {
             // console.log(foundClass);
             // await this.classReposotory.createQueryBuilder().insert().relation(foundUser: UserEntity,)
             await this.classReposotory.save(foundClass)
+            await this.mailerService.sendMail({
+                to: newStudent.email,
+                subject: "Password",
+                template: "studentMail",
+                context: {
+                    name: `${newStudent.firstName} ${newStudent.lastName}`,
+                    info: `Your new password is ${newStudent.password}`
+                }
+            })
             return newStudent
         }
 

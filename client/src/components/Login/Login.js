@@ -97,7 +97,6 @@ const Login = (props) => {
       return;
     }
     // fetch("http://localhost:4000/api/user/newuser", {
-      // fetch("https://teacher-aid.onrender.com/api/user/newuser", {
       fetch("https://eschool-pw0m.onrender.com/api/user/newuser", {
 
       method: "POST",
@@ -166,7 +165,6 @@ const Login = (props) => {
     }
 
     // fetch("http://localhost:4000/api/user/login", {
-      // fetch("https://teacher-aid.onrender.com/api/user/login", {
         fetch("https://eschool-pw0m.onrender.com/api/user/login", {
 
       method: "POST",
@@ -211,7 +209,6 @@ const Login = (props) => {
     e.preventDefault();
     setInProgress(true);
     // fetch("http://localhost:4000/api/user/forgetenpassword", {
-      // fetch("https://teacher-aid.onrender.com/api/user/forgetenpassword", {
         fetch("https://eschool-pw0m.onrender.com/api/user/forgetenpassword", {
 
       

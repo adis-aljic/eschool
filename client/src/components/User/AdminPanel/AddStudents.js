@@ -126,7 +126,6 @@ const AddStudent = (props) => {
         })
       return
     }
-    // fetch("https://teacher-aid.onrender.com/api/user/newstudent", {
       
       // fetch('http://localhost:4000/api/user/newstudent', {
           fetch("https://eschool-pw0m.onrender.com/api/user/newstudent", {

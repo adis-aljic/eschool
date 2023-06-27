@@ -18,7 +18,6 @@ const RegistrerClass = () => {
   const Navigate = useNavigate();
   useEffect(()=>{
     // fetch("http://localhost:4000/api/classes/list") 
-        //  fetch("https://teacher-aid.onrender.com/api/classes/list")
         fetch("https://eschool-pw0m.onrender.com/api/classes/list")
 
     .then(resolve => resolve.json())
@@ -59,7 +58,6 @@ const RegistrerClass = () => {
       return    }
     const user = JSON.parse(localStorage.getItem('user'));
     // fetch('http://localhost:4000/api/classes/addclass', {
-      // fetch("https://teacher-aid.onrender.com/api/classes/addclass", {
         fetch("https://eschool-pw0m.onrender.com/api/classes/addclass", {
 
 
