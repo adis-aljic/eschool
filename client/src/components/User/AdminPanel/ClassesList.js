@@ -29,8 +29,9 @@ const ClassesList = (props) => {
       .then((data) => {
         console.log(data);
         localStorage.setItem('MyClasses', JSON.stringify(data));
+        setClasses(data)
       });
-    }, [user.id]
+    }, []
     );
     const refreshListHandler = (e) => {
     e.preventDefault()

@@ -50,7 +50,6 @@ const ListCurriculum = (props) => {
 
   useEffect(() => {
     // fetch(`http://localhost:4000/api/curriculum/list`, {
-      // fetch("https://teacher-aid.onrender.com/api/curriculum/list", {
         fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
 
 
@@ -66,7 +65,6 @@ const ListCurriculum = (props) => {
       .then((resolve) => resolve.json())
       .then((data) => {
         setCurriculum(data);
-        console.log("fetchano");
         localStorage.setItem("curriculumList", JSON.stringify(data));
       }).catch(error =>{
         setIsError({
@@ -75,7 +73,7 @@ const ListCurriculum = (props) => {
         });
         Navigate("/error")
       });
-  }, []);
+  });
 
   const monthlyPlanHandler = () => {
     setMonthlyPlan(true);

@@ -18,8 +18,8 @@ const OpenModal = (props) => {
       <Modal.Body>
         {props.body}
       </Modal.Body>
-      <Modal.Footer>
-      <div class="alert alert-success" role="alert">
+      <Modal.Footer >
+      <div className={`${props.message ? "alert alert-success" : ""}`} role="alert">
         {props.message}
 </div>
         

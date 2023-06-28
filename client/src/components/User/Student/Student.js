@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Accordion from "react-bootstrap/Accordion";
-import styles from "./Student.module.css";
 import Card from 'react-bootstrap/Card';
 
 import { Link } from "react-router-dom";
@@ -13,16 +12,20 @@ const Student = (props) => {
   const [info, setInfo] = useState(JSON.parse(localStorage.getItem("profile")));
   const [key, setKey] = useState('profile');
   const [data ,setData] = useState([])
-  const classesId = info.classes.map(x => x.id)
-  console.log(classesId);
-  const myNews = []
- data.map(x => {
-    classesId.map(id =>{
+  const [myNews, setMyNews] = useState([])
+  const classesId = info ? info.classes.map(x => x.id) : null
+
+useEffect(()=>{
+
+  data.forEach(x => {
+    classesId.forEach(id =>{
       if(data.classId === id){
-        myNews.push(x)
+        setMyNews((news)=> myNews.push(news))
       }
     })
- })
+  }) 
+})
+  
   const [teachers, setTeachers] = useState(
     JSON.parse(localStorage.getItem("MyClasses"))
   );
@@ -78,13 +81,13 @@ const Student = (props) => {
         setTeachers(data);
         localStorage.setItem("MyClasses", JSON.stringify(data));
       });
-  }, [user.id]);
+  }, []);
 
   const infoData = [];
   if (info) {
     const codes = info.classes.map((code) => code.abbrevation);
-    codes.map((x) => {
-      teachers.map((teacher) => {
+   codes ? codes.map((x) => {
+      teachers ? teachers.map((teacher) => {
         teacher.classes.map((sClass) => {
           if (x === sClass.abbrevation) {
             const obj = {
@@ -99,9 +102,9 @@ const Student = (props) => {
           }
         });
         localStorage.setItem("teacherData", JSON.stringify(infoData));
-      });
+      }) : null
       // setObj(infoData)
-    });
+    }) : null
   }
   return (
     <>
@@ -144,9 +147,9 @@ const Student = (props) => {
                       <h3>{schoolClass.subject}</h3>
                   </Accordion.Header>
                     <Accordion.Body >
-                      <li>
-                        <p >
+                      <li key={index}>
                           <h3>Grade</h3>
+                        <p >
                           {info.grades
                             ? info.grades.map((grade) => grade.grade).join(", ")
                             : " No grade"}
@@ -166,10 +169,8 @@ const Student = (props) => {
                               Teacher : {obj.fullName}
                               <br></br>
                               Email :{" "}
-                              <Link to="/message">
-                                <a onClick={ctx.navigationMessageHandler}>
+                              <Link to="/message" onClick={ctx.navigationMessageHandler}>
                                   {obj.email}
-                                </a>
                               </Link>
                             </>
                           ) : null;
@@ -208,6 +209,19 @@ const Student = (props) => {
         </Card.Text>
       {  news.url ? <Card.Link download={true} target="_blank" href={news.url}>Download</Card.Link> : null}
       </Card.Body>
+      <Card.Footer>   <span style={{color : "red", fontSize:"smaller", float:"right"}}>  Created:{" "}
+                                                              {new Date(
+                                                                news.createdAt
+                                                              ).toLocaleDateString(
+                                                                "en-us",
+                                                                {
+                                                                  year: "numeric",
+                                                                  month:
+                                                                    "short",
+                                                                  day: "numeric",
+                                                                }
+                                                              )}
+                                                              </span></Card.Footer>
     </Card>
        
 

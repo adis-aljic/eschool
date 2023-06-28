@@ -9,9 +9,6 @@ export class CreateClassDTO {
     readonly city: string
 
     @IsNotEmpty()
-    readonly cityAbb: string
-
-    @IsNotEmpty()
     readonly schoolClass: string
 
     @IsNotEmpty()

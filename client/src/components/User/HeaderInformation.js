@@ -18,7 +18,7 @@ const HeaderInformation = (props) => {
 
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav" className={classes.navigationMain}>
-          <Navbar.Brand className={classes.eschoolBrand}> <img src={navBarPng} /> E-school</Navbar.Brand>
+          <Navbar.Brand className={classes.eschoolBrand}> <img alt="logo" src={navBarPng} /> E-school</Navbar.Brand>
           <Nav>
 
               {props.user ? props.user.role === "student" && (
@@ -48,10 +48,10 @@ const HeaderInformation = (props) => {
                 </LinkContainer>
               ): null}
               
-              { props.user  ?  props.user.role === "teacher" && (<NavDropdown title="Admin Panel" id="basic-nav-dropdown" > 
+              { props.user  ?  props.user.role === "teacher" && (<NavDropdown as={"a"} className={classes.dropdown} title="Admin Panel" id="basic-nav-dropdown" > 
               <NavDropdown.Item>
               {props.user ? props.user.role === "teacher" && (
-                <LinkContainer to="/admin">
+                <LinkContainer style={{width : "100%"}}  to="/admin">
 
                   <Button as="div" onClick={ctx.addClassNavHandler}>
                     Add Class
@@ -64,7 +64,7 @@ const HeaderInformation = (props) => {
               <NavDropdown.Item>
             
             {props.user ? props.user.role === "teacher" && (
-              <LinkContainer to="/admin">
+              <LinkContainer to="/admin" style={{width : "100%"}}>
                 <Button as="div" onClick={ctx.addStudentNavHandler}>
                   Add Student
                 </Button>
@@ -76,7 +76,7 @@ const HeaderInformation = (props) => {
               <NavDropdown.Item>
             
               {props.user ? props.user.role === "teacher" && (
-                <LinkContainer to="/admin">
+                <LinkContainer style={{width : "100%"}} to="/admin">
                   <Button as="div" onClick={ctx.RegisterClassNavHandler}>
                     Register Class
                   </Button>
@@ -88,9 +88,9 @@ const HeaderInformation = (props) => {
               <NavDropdown.Item>
             
               {props.user ? props.user.role === "teacher" && (
-                <LinkContainer to="/admin">
-                  <Button as="div" onClick={ctx.UnregisterClassNavHandler}>
-                    UnRegister Class
+                <LinkContainer to="/admin" style={{width : "100%"}}>
+                  <Button  as="div" onClick={ctx.UnregisterClassNavHandler}>
+                    Unregister Class
                   </Button>
                 </LinkContainer>
               ): null}
@@ -100,7 +100,7 @@ const HeaderInformation = (props) => {
               <NavDropdown.Item>
             
               {props.user ? props.user.role === "teacher" && (
-                <LinkContainer to="/admin">
+                <LinkContainer style={{width : "100%"}} to="/admin">
                   <Button as="div" onClick={ctx.AddNewsNavHandler}>
                     Add News
                   </Button>
@@ -110,6 +110,8 @@ const HeaderInformation = (props) => {
        
                  </NavDropdown>) : null }
             
+            
+
             
               {props.user ? props.user.role === "teacher" && (
                 <LinkContainer to="/curriculum">

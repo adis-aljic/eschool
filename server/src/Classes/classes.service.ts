@@ -23,7 +23,13 @@ export class ClassService {
 
         const schoolClass = new ClassesEntity()
         Object.assign(schoolClass, createClassDTO)
-
+        const foundClass = await this.classRepository.findOneBy({
+            abbrevation : createClassDTO.abbrevation
+        })
+        if(foundClass){
+             throw new HttpException("Class already exist", HttpStatus.BAD_REQUEST)
+             
+        }
         // console.log(schoolClass);
         return await this.classRepository.save(schoolClass)
     }

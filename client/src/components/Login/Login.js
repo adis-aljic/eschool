@@ -19,7 +19,6 @@ const Login = (props) => {
   const [enteredRegPassword, setEnteredRegPassword] = useState("");
   const [enteredFirstName, setEnteredFirstName] = useState("");
   const [enteredLastName, setEnteredLastName] = useState("");
-  const [enteredSubject, setEnteredSubject] = useState("");
   const [forgotPass, setForgotPass] = useState(false);
   const [inputEmailForgetEmail, setInputEmailForgetEmail] = useState("");
   const [recievedNewPass, setRecievedNewPass] = useState(false);
@@ -31,7 +30,6 @@ const Login = (props) => {
   const inputedRegPassword = useRef();
   const inputedFirstName = useRef();
   const inputedLastName = useRef();
-  const inputedSubject = useRef();
   const inputedForgetPassEmailRef = useRef();
 
   const emailChangeHandler = () => setEnteredEmail(inputedEmail.current.value);
@@ -51,8 +49,7 @@ const Login = (props) => {
   const lastNameChangeHandler = () =>
     setEnteredLastName(inputedLastName.current.value);
 
-  const subjectChangeHandler = () =>
-    setEnteredSubject(inputedSubject.current.value);
+
 
   const forgotPasswordHandler = () => setForgotPass(true);
 
@@ -114,11 +111,7 @@ const Login = (props) => {
       .then((resolve) => resolve.json())
       .then((data) => {
         ctx.onRegistred(data);
-        setIsError({
-          title : "Warning",
-          body : data.message
-        })
-
+    
         console.log(data);
       }).catch(error =>{
         setIsError({
@@ -132,7 +125,6 @@ const Login = (props) => {
     setEnteredFirstName("");
     setEnteredLastName("");
     setEnteredRegPassword("");
-    setEnteredSubject("");
     setIsError({
       title: "Account created",
       message:
@@ -167,6 +159,8 @@ const Login = (props) => {
       });
       return;
     }
+    setTimeout(() => {
+      
 
     // fetch("http://localhost:4000/api/user/login", {
         fetch("https://eschool-pw0m.onrender.com/api/user/login", {
@@ -202,6 +196,7 @@ const Login = (props) => {
         Navigate("/error")
       });;
 
+    }, 500);
 
 
     setEnteredEmail("");
@@ -321,14 +316,7 @@ const Login = (props) => {
               value={enteredLastName}
               onChange={lastNameChangeHandler}
             ></input>
-            <input
-              type="text"
-              name="subject"
-              placeholder="Subject"
-              ref={inputedSubject}
-              value={enteredSubject}
-              onChange={subjectChangeHandler}
-            ></input>
+       
             <input
               type="password"
               name="pswd"

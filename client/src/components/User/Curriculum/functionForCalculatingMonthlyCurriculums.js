@@ -88,7 +88,7 @@ function countWeeksInMonths(start_date, end_date) {
 
     currentDate.setDate(currentDate.getDate() + 7); // Move to the next week
   }
-  result.map(x => {
+  result.forEach(x => {
     if(x.month === "januar"){
       x.numWeeks = 1
       x.startDates = x.startDates[x.startDates.length -1]

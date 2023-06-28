@@ -55,6 +55,7 @@ return(
         
         </Card.Text>
       {  news.url ? <Card.Link download={true} target="_blank" href={news.url}>Download</Card.Link> : null}
+
       </Card.Body>
     </Card>
        

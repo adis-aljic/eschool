@@ -18,15 +18,20 @@ import Student from './components/User/Student/Student';
 import Message from './components/User/Student/Message';
 import SomethingWentWrong from "./components/Error/SomethingWentWrong"
 import PageNotFound from "./components/Error/404"
-import { Navigate } from 'react-router-dom';
 import OpenModal from './components/UI/Modal';
 
 function App() { 
   const ctx = useContext(AuthContex);
-  console.log(ctx);
   return (
     <>
     <HeaderInformation user={ctx.user}></HeaderInformation>
+      <div className='container'>
+    <div className='row'>
+      <div className='col' style={{marginTop: "1rem" , height:"3rem", }}>
+
+      </div>
+      </div>
+    </div>
       {ctx.isError && (
         <OpenModal
           title={ctx.isError.title}

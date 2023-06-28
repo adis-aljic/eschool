@@ -13,8 +13,6 @@ export class ClassesEntity {
     @Column()
     city: string
 
-    @Column()
-    cityAbb: string
 
     @Column()
     schoolClass: string

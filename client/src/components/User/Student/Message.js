@@ -1,6 +1,5 @@
 
 import { useRef, useState } from "react"
-import Card from "../../UI/Card"
 import "./Message.css"
 import Button from "../../UI/Button"
 const Message = props =>{
@@ -61,7 +60,6 @@ const Message = props =>{
     }
     // console.log(enetredTeacherInfo);
     return(
-        <Card className="card">
 
         <form onSubmit={contactFormSubmit}>      
         <input value={`${user.firstName} ${user.lastName}`} disabled={true} name="name" type="text" class="feedback-input" placeholder="Name" />   
@@ -74,12 +72,11 @@ const Message = props =>{
         }) : null
     }
        </select>
-    <input name="title" value={enteredTitle} type="text" class="feedback-input" placeholder="title" onChange={titleHandler} ref={titleRef} />
+    <input name="title" value={enteredTitle} type="text" class="feedback-input" placeholder="Title" onChange={titleHandler} ref={titleRef} />
         <textarea name="text" value={enteredMessage} maxLength={200} ref={enteredMessageRef} onChange={messageHandler} class="feedback-input" placeholder="Enter message"></textarea>
         <p>{enteredMessage.length} / 200</p>
         <Button>Send Message</Button>
       </form>
-        </Card>
     )
 }
 
