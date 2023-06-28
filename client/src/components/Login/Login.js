@@ -177,6 +177,7 @@ const Login = (props) => {
     })
       .then((resolve) => resolve.json())
       .then((data) => {
+        console.log(data);
         ctx.onLogin(data);
           setIsError({title : data.title,
                     message : data.message})
