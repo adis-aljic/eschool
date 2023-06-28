@@ -17,8 +17,8 @@ const Student = (props) => {
 
 useEffect(()=>{
 
-  data.forEach(x => {
-    classesId.forEach(id =>{
+  data.map(x => {
+    classesId.map(id =>{
       if(data.classId === id){
         setMyNews((news)=> myNews.push(news))
       }
@@ -71,7 +71,7 @@ useEffect(()=>{
       });
     // fetch("http://localhost:4000/api/user/teachers", {
         fetch("https://eschool-pw0m.onrender.com/api/user/teachers", {
-
+// 
 
       mode: "cors",
       method: "GET",
@@ -86,8 +86,8 @@ useEffect(()=>{
   const infoData = [];
   if (info) {
     const codes = info.classes.map((code) => code.abbrevation);
-   codes ? codes.map((x) => {
-      teachers ? teachers.map((teacher) => {
+    codes.map((x) => {
+       teachers.map((teacher) => {
         teacher.classes.map((sClass) => {
           if (x === sClass.abbrevation) {
             const obj = {
@@ -102,9 +102,9 @@ useEffect(()=>{
           }
         });
         localStorage.setItem("teacherData", JSON.stringify(infoData));
-      }) : null
+      }) 
       // setObj(infoData)
-    }) : null
+    }) 
   }
   return (
     <>
