@@ -36,7 +36,7 @@ const ListCurriculum = (props) => {
   const classes = JSON.parse(localStorage.getItem("MyClasses"));
 
   const numberOfClassesPerWeekHandler = (e) => setNumberOfClassesPerWeek(parseInt(e.target.value));
-  const classCodeHandler = (e) => setClassCode(e.target.value);
+  const classCodeHandler = (e) => setClassCode(e.target.value.toUpperCase());
   const septembarRadioHandler = () => setChooseMonth("September");
   const oktobarRadioHandler = () => setChooseMonth("October");
   const novembarRadioHandler = () => setChooseMonth("November");
@@ -49,8 +49,8 @@ const ListCurriculum = (props) => {
   const juneRadioHandler = () => setChooseMonth("June");
 
   useEffect(() => {
-    // fetch(`http://localhost:4000/api/curriculum/list`, {
-        fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
+    fetch(`http://localhost:4000/api/curriculum/list`, {
+        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
 
 
       mode: "cors",
@@ -172,11 +172,9 @@ const ListCurriculum = (props) => {
         
           title="Monthly plan"
           onHide={monthlyPlanCloseHandler}
-          message = {isError.message}
+          // message = {isError.message}
           show={monthlyPlan}
-        body = {
-
-      
+        body = {      
           <Form onSubmit={onSubmitMonthlyPlanHandler} className="form " >
        
 
@@ -301,7 +299,7 @@ const ListCurriculum = (props) => {
         {pdf ? (
           <PdfFormPreview
             onClick={pdfHandler}
-            pdfUrl={"https://docdro.id/crXBebZ"}
+            pdfUrl={"https://drive.google.com/file/d/1RR90r5Y7AsSDXXMKvtwWRXyw0bRp7FDh/view?usp=sharing"}
             formData={formData}
           ></PdfFormPreview>
         ) : (

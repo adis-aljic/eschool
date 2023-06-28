@@ -26,15 +26,14 @@ const Curriculum = () => {
 
   const addCurriculumHandler = e =>{
     e.preventDefault()
-    console.log(typeof inputText);
-    // fetch("http://localhost:4000/api/curriculum/addcurriculum",{
-        fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
+    fetch("http://localhost:4000/api/curriculum/addcurriculum",{
+        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
 
 
         method:"POST",
         body: JSON.stringify({
             userId : user.id,
-            classCode : classCode,
+            classCode : classCode.toUpperCase(),
             curriculum : inputText
         }),
         mode:"cors",
@@ -42,24 +41,13 @@ const Curriculum = () => {
             'Content-Type': 'application/json',
         }
     })
-    .then(resolve => {
-      if(resolve.ok){
-        console.log("resolve");
-        resolve.json()
-        setAddedCurriculum(true)
-        setTimeout(() => {
-          setAddedCurriculum(false)
-        }, 1500);
-      }else{
-        console.log("else");
-        return
-      }
-    }) 
+    .then(resolve => resolve.json()) 
     .then((data) => {
       console.log("Data");
       console.log(data)
     }
      ).catch(error =>{
+      console.log(error);
       setIsError({
         title: "Something went wrong",
         message: error.message
