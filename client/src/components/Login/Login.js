@@ -114,6 +114,10 @@ const Login = (props) => {
       .then((resolve) => resolve.json())
       .then((data) => {
         ctx.onRegistred(data);
+        setIsError({
+          title : "Warning",
+          body : data.message
+        })
 
         console.log(data);
       }).catch(error =>{
@@ -225,6 +229,10 @@ const Login = (props) => {
       .then((data) => {
         console.log(data);
         setRecievedNewPass(true);
+        setIsError({
+          title: "Suscess ...",
+          message: data.message
+        });
       }).catch(error =>{
         setIsError({
           title: "Something went wrong",
