@@ -84,11 +84,11 @@ export class UserService {
 
         const newUser = new UserEntity() as any
         Object.assign(newUser, createUserDTO)
-        // newUser.isAuth = true;
+        newUser.isAuth = true;
 
         await this.userRepository.save(newUser)
         await this.userRepository.findOne({ where: { email: newUser.email } })
-        this.sendUserConfirmation(newUser)
+        // this.sendUserConfirmation(newUser)
 
         return newUser
     }
@@ -210,15 +210,15 @@ export class UserService {
             // console.log(foundClass);
             // await this.classReposotory.createQueryBuilder().insert().relation(foundUser: UserEntity,)
             await this.classReposotory.save(foundClass)
-            await this.mailerService.sendMail({
-                to: newStudent.email,
-                subject: "Password",
-                template: "studentMail",
-                context: {
-                    name: `${newStudent.firstName} ${newStudent.lastName}`,
-                    info: `Your new password is ${newStudent.password}`
-                }
-            })
+            // await this.mailerService.sendMail({
+            //     to: newStudent.email,
+            //     subject: "Password",
+            //     template: "studentMail",
+            //     context: {
+            //         name: `${newStudent.firstName} ${newStudent.lastName}`,
+            //         info: `Your new password is ${newStudent.password}`
+            //     }
+            // })
             return newStudent
         }
 
@@ -278,7 +278,7 @@ export class UserService {
             await this.mailerService.sendMail({
                 to: sendMessageDTO.teacherEmail,
                 subject: `Student: ${sendMessageDTO.studentName} : ${sendMessageDTO.title}`,
-                template: './confirmation',
+                template: './studentMail',
                 context: {
                   teacherFullName : sendMessageDTO.teacherFullName,
                   school : sendMessageDTO.school,
