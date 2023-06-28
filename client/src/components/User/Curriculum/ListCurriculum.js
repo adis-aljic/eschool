@@ -49,8 +49,8 @@ const ListCurriculum = (props) => {
   const juneRadioHandler = () => setChooseMonth("June");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/curriculum/list`, {
-        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
+    // fetch(`http://localhost:4000/api/curriculum/list`, {
+        fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
 
 
       mode: "cors",

@@ -26,8 +26,8 @@ const Curriculum = () => {
 
   const addCurriculumHandler = e =>{
     e.preventDefault()
-    fetch("http://localhost:4000/api/curriculum/addcurriculum",{
-        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
+    // fetch("http://localhost:4000/api/curriculum/addcurriculum",{
+        fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
 
 
         method:"POST",
