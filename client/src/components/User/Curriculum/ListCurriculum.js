@@ -5,8 +5,8 @@ import OpenModal from "../../UI/Modal";
 import Accordion from "react-bootstrap/Accordion";
 import "./Curriculum.css"
 import PdfFormPreview from "../../pdfViewer/PdfFormPreview";
-// import pdfForm from "./Monthly_plan_form.pdf";
-// import pdfFile from "..\..\..\src\assets\monthly_plan_10m.pdf"
+import pdfForm from "../../../assets/pdf_mp.pdf"
+
 import {
   findSchoolYear,
   countWeeksInMonths,
@@ -24,17 +24,18 @@ const ListCurriculum = (props) => {
   const [monthlyPlan, setMonthlyPlan] = useState(false);
 
   const [numberOfClassesPerWeek, setNumberOfClassesPerWeek] = useState(null);
-  const [classCode, setClassCode] = useState("");
+  const [enteredClassCode, setClassCode] = useState("");
   const [pdf, setPdf] = useState(false);
   const [choosenMonth, setChooseMonth] = useState("September");
   const [formData, setFormData] = useState({});
+  const [curriculumClassCode,  setCurriculumClassCode] = useState(null)
 
   const inputNumberOfClassesPerWeekRef = useRef();
   const inputClassCodeRef = useRef();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const classes = JSON.parse(localStorage.getItem("MyClasses"));
-
+// console.log(classes);
   const numberOfClassesPerWeekHandler = (e) => setNumberOfClassesPerWeek(parseInt(e.target.value));
   const classCodeHandler = (e) => setClassCode(e.target.value.toUpperCase());
   const septembarRadioHandler = () => setChooseMonth("September");
@@ -47,12 +48,11 @@ const ListCurriculum = (props) => {
   const aprilRadioHandler = () => setChooseMonth("April");
   const mayRadioHandler = () => setChooseMonth("May");
   const juneRadioHandler = () => setChooseMonth("June");
+    // if(props.showCurriculum){
+    useEffect(()=>{
 
-  useEffect(() => {
-    // fetch(`http://localhost:4000/api/curriculum/list`, {
-        fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
-
-
+      fetch(`http://localhost:4000/api/curriculum/list`, {
+        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
       mode: "cors",
       method: "POST",
       body: JSON.stringify({
@@ -73,23 +73,52 @@ const ListCurriculum = (props) => {
         });
         Navigate("/error")
       });
-  });
+    },[props.showCurriculum]
+    
+  ) 
 
-  const monthlyPlanHandler = () => {
+  const monthlyPlanHandler = (e) => {
     setMonthlyPlan(true);
     setPdf(false);
+    setCurriculumClassCode(e.target.value)
+    setClassCode(e.target.value.toUpperCase())
   };
   const monthlyPlanCloseHandler = () => setMonthlyPlan(false);
+  const deleteCurriculumHandler = (e) => {
 
+    e.preventDefault()
+    // const id = 
+    // console.log(JSON.parse(e.target.value));
+    fetch(`http://localhost:4000/api/curriculum/deleteCurriculum`, {
+      // fetch("https://eschool-pw0m.onrender.com/api/curriculum/deleteCurriculum", {
+        mode: "cors",
+        method: "POST",
+        body: JSON.stringify({
+          id: e.target.value,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then(resolve => resolve.json())
+      .then(data =>{
+        // console.log(data);
+
+        return setIsError({
+          title : "Susscess",
+          message : `Curriculum is deleted`
+        })
+      })
+  }
   const onSubmitMonthlyPlanHandler = async (e) => {
     e.preventDefault();
+    // console.log(curriculum);
     monthlyPlanCloseHandler();
     setPdf(true);
     const year1 = findSchoolYear().year1;
     const year2 = findSchoolYear().year2;
     const schoolCalendar = countWeeksInMonths(year1, year2);
-    console.log(choosenMonth);
-    console.log(schoolCalendar);
+    
     const week1 = countWeeksInMonths(year1, year2).find(
       ({ month }) => month === choosenMonth
     ).startDates[0];
@@ -98,15 +127,15 @@ const ListCurriculum = (props) => {
     ).startDates[1];
     const week3 = countWeeksInMonths(year1, year2).find(
       ({ month }) => month === choosenMonth
-    ).startDates[2];
-    const week4 = countWeeksInMonths(year1, year2).find(
-      ({ month }) => month === choosenMonth
-    ).startDates[3];
-    const week5 = countWeeksInMonths(year1, year2).find(
-      ({ month }) => month === choosenMonth
-    ).startDates[4];
-    const date1 = secondDate(week1)
-      ? `${week1} - ${secondDate(week1)}`
+      ).startDates[2];
+      const week4 = countWeeksInMonths(year1, year2).find(
+        ({ month }) => month === choosenMonth
+        ).startDates[3];
+        const week5 = countWeeksInMonths(year1, year2).find(
+          ({ month }) => month === choosenMonth
+          ).startDates[4];
+          const date1 = secondDate(week1)
+          ? `${week1} - ${secondDate(week1)}`
       : undefined;
     const date2 = secondDate(week2)
       ? `${week2} - ${secondDate(week2)}`
@@ -114,29 +143,29 @@ const ListCurriculum = (props) => {
     const date3 = secondDate(week3)
       ? `${week3} - ${secondDate(week3)}`
       : undefined;
-    const date4 = secondDate(week4)
+      const date4 = secondDate(week4)
       ? `${week4} - ${secondDate(week4)}`
       : undefined;
     const date5 = secondDate(week5)
-      ? `${week5} - ${secondDate(week5)}`
-      : undefined;
-    const currentCurriculum = curriculum.find(
-      ({ classCode }) => classCode === classCode
-    );
+    ? `${week5} - ${secondDate(week5)}`
+    : undefined;
+    const currentCurriculum = curriculum.filter(({classCode})=> classCode === enteredClassCode);
+    const currentClass = classes.filter((x) => x.abbrevation === enteredClassCode)
     const classesPerMonths = getClassesPerMonths(
-      currentCurriculum.curriculum,
+      currentCurriculum[0].curriculum,
       schoolCalendar,
       numberOfClassesPerWeek,
       choosenMonth
-    );
-    const data = {
-      month: choosenMonth,
-      school: classes.find((x) => x.abbrevation === classCode).school,
-      subjec: user.subject,
-      teacher: `${user.firstName} ${user.lastName}`,
+      );
+      const data = {
+        month: choosenMonth,
+        school: currentClass[0].school,
+        subjec: currentClass[0].subject
+        ,
+        teacher: `${user.firstName} ${user.lastName}`,
       schoolClass: `${
-        classes.find((x) => x.abbrevation === classCode).schoolClass
-      } ${classes.find((x) => x.abbrevation === classCode).departmant}`,
+        currentClass[0].schoolClass
+      } ${currentClass[0].departmant}`,
       year1: year1.toString(),
       year2: year2.toString(),
       date1,
@@ -144,29 +173,69 @@ const ListCurriculum = (props) => {
       date3,
       date4,
       date5,
-      text1: classesPerMonths.slice(0, numberOfClassesPerWeek).join(" "),
-      textarea_33cfnu: classesPerMonths
-        .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2)
-        .join(" "),
-      text3: classesPerMonths
-        .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)
-        .join(" "),
-      text4: classesPerMonths
-        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)
-        .join(" "),
-      text5: classesPerMonths
-        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)
-        .join(" "),
+      // text1: classesPerMonths.slice(0, numberOfClassesPerWeek),
+      text1Line1 : classesPerMonths.slice(0, numberOfClassesPerWeek)[0],
+      text1Line2 : classesPerMonths.slice(0, numberOfClassesPerWeek)[1],
+      text1Line3 : classesPerMonths.slice(0, numberOfClassesPerWeek)[2],
+      text1Line4 : classesPerMonths.slice(0, numberOfClassesPerWeek)[3],
+      // text2: classesPerMonths
+        // .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2),
+        text2Line1 : classesPerMonths
+        .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2)[0],
+        text2Line2 : classesPerMonths
+        .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2)[1],
+        text2Line3 : classesPerMonths
+        .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2)[2],
+        text2Line4 : classesPerMonths
+        .slice(numberOfClassesPerWeek, numberOfClassesPerWeek * 2)[3],
+        // text3: classesPerMonths
+        // .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3),
+        text3Line1 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)[0],
+        text3Line2 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)[1],
+        text3Line3 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)[2],
+        text3Line4 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)[3],
+        // text4: classesPerMonths
+        // .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4),
+        text4Line1 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[0],
+        text4Line2 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[1],
+        text4Line3 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[2],
+        text4Line4 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[3],
+        // text5: classesPerMonths
+        // .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5),
+        text5Line1 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[0],
+        text5Line2 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[1],
+        text5Line3 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[2],
+        text5Line4 : classesPerMonths
+        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[3],
     };
     setFormData(data);
-    console.log(data);
+    setCurriculumClassCode(null)
   };
 
   const pdfHandler = () => {
     setPdf(false);
   };
+  const closeModalHandler = () => {setIsError(null)}
   return (
     <div >
+      
+      {isError && <OpenModal
+      title = {isError.title}
+      body = {isError.message}
+      show = {isError}
+      onHide ={closeModalHandler}
+      ></OpenModal>}
       {monthlyPlan && !pdf && (
         <OpenModal
         
@@ -191,7 +260,7 @@ const ListCurriculum = (props) => {
                 <Form.Control
             size='lg'
                   ref={inputClassCodeRef}
-                  value={classCode}
+                  value={curriculumClassCode}
                   required={true}
                   onChange={classCodeHandler}
                   placeholder="Class code"
@@ -286,8 +355,7 @@ const ListCurriculum = (props) => {
   
               
               
-              
-        
+                  
       
               <Button type="submit">Preview</Button>
           </Form>
@@ -299,7 +367,7 @@ const ListCurriculum = (props) => {
         {pdf ? (
           <PdfFormPreview
             onClick={pdfHandler}
-            pdfUrl={"https://drive.google.com/file/d/1RR90r5Y7AsSDXXMKvtwWRXyw0bRp7FDh/view?usp=sharing"}
+            pdfUrl={pdfForm}
             formData={formData}
           ></PdfFormPreview>
         ) : (
@@ -350,9 +418,13 @@ const ListCurriculum = (props) => {
                           .map((item) => {
                             return <li >{item}</li>;
                           })}
-                        <Button onClick={monthlyPlanHandler}>
+                          <div className='curriculumButtons'>
+
+                        <Button onClick={monthlyPlanHandler} value={curriculumItem.classCode}>
                           Get monthly plan
                         </Button>
+                        <Button value={curriculumItem.id} onClick={deleteCurriculumHandler}>Delete curriculum</Button>
+                          </div>
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>

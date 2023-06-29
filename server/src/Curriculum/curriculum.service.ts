@@ -46,5 +46,14 @@ constructor(@InjectRepository(CurriculumEntity) private readonly curriculumRepos
         
         return curriculum
     }
+    async deleteCurriculum(id:number){
+        const curriculum = await this.curriculumRepository.delete({
+            id : id
+        })
+        // console.log(curriculum);
+        console.log(curriculum);
+        
+        return curriculum
+    }
 
 }

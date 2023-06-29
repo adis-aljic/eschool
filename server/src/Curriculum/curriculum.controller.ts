@@ -15,9 +15,12 @@ export class CurriculumController {
     }
     @Post("api/curriculum/list")
     async listCurriculum(@Body("id", ParseIntPipe) id : number) : Promise <any>{
-            //  console.log(id);
-            // console.log("id");
-            // return "hello"
+      
         return await this.curriculumService.listCurriculum(id)
+    }
+    @Post("api/curriculum/deleteCurriculum")
+    async deleteCurriculum(@Body("id", ParseIntPipe) id : number) : Promise <any>{
+            
+        return await this.curriculumService.deleteCurriculum(id)
     }
 }

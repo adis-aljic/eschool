@@ -11,7 +11,8 @@ const Curriculum = () => {
   const [classCode, setClassCode] = useState("")
   const [addedCurriculum, setAddedCurriculum] = useState(false)
   const [isError, setIsError] = useState(null)
-  
+  const [showCurriculums , setShowCurriculums] = useState(false)
+  const listCurriculumBtnHandler = () => setShowCurriculums(!showCurriculums)
   const Navigate = useNavigate();
   const textAreaRef = useRef()
   const inputClassCodeRef = useRef()
@@ -26,8 +27,8 @@ const Curriculum = () => {
 
   const addCurriculumHandler = e =>{
     e.preventDefault()
-    // fetch("http://localhost:4000/api/curriculum/addcurriculum",{
-        fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
+    fetch("http://localhost:4000/api/curriculum/addcurriculum",{
+        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/addcurriculum", {
 
 
         method:"POST",
@@ -43,11 +44,11 @@ const Curriculum = () => {
     })
     .then(resolve => resolve.json()) 
     .then((data) => {
-      console.log("Data");
-      console.log(data)
+      // console.log("Data");
+      // console.log(data)
     }
      ).catch(error =>{
-      console.log(error);
+      // console.log(error);
       setIsError({
         title: "Something went wrong",
         message: error.message
@@ -69,6 +70,7 @@ if(addedCurriculum){
 }
   return (
     <>
+
     {isError && <OpenModal
             show={isError}
 
@@ -100,7 +102,7 @@ if(addedCurriculum){
         <div className='col'>
           
       <span class="badge rounded-pill text-bg-primary" style={{cursor: "pointer"}} onClick={()=> setIsError({title : "Add curriculum information",
-message : <p>1. To add a curriculum, input the class code for the class you wish to add it to.
+message : <div>1. To add a curriculum, input the class code for the class you wish to add it to.
 <br></br>
 2. Enter the curriculum in the following format: each lesson should be on a separate line, 
 and include the lesson number followed by the name of the lesson. For example:<br></br>
@@ -120,13 +122,17 @@ and include the lesson number followed by the name of the lesson. For example:<b
  <br></br>
  4. If you want a monthly plan, click on the "Get Monthly Plan" button. Enter the number of classes per week and the month for which you want the plan.
 <br></br>
+5. If you want print monthly plan first you must download it to your computer  then print it.
 
 
-</p>})} >About <svg style={{marginRight: "5%"}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+</div>})} >About <svg style={{marginRight: "5%"}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
 </svg></span>
-    <ListCurriculum></ListCurriculum>
+      <br></br>
+<Button onClick={listCurriculumBtnHandler}>{showCurriculums ? "Hide Curriculums" : "Show Curriculums"}</Button>
+<br></br>
+  { showCurriculums ? <ListCurriculum showCurriculum = {showCurriculums}></ListCurriculum> : null}
 
         </div>
       </div>
