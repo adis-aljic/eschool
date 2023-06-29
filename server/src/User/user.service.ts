@@ -88,7 +88,7 @@ export class UserService {
 
         await this.userRepository.save(newUser)
         await this.userRepository.findOne({ where: { email: newUser.email } })
-        // this.sendUserConfirmation(newUser)
+        this.sendUserConfirmation(newUser)
 
         return newUser
     }
