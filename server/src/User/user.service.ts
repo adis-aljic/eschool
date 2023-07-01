@@ -55,15 +55,15 @@ export class UserService {
         else {
 
             const password = body.password
-            await this.mailerService.sendMail({
-                to: checkIfUserExist.email,
-                subject: "New Password Eschool",
-                template: "message",
-                context: {
-                    name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
-                    info: `Your new password is ${password}`
-                }
-            })
+            // await this.mailerService.sendMail({
+            //     to: checkIfUserExist.email,
+            //     subject: "New Password Eschool",
+            //     template: "message",
+            //     context: {
+            //         name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
+            //         info: `Your new password is ${password}`
+            //     }
+            // })
     
             checkIfUserExist.password = await hash(password, 10)
             // console.log(checkIfUserExist);
@@ -92,15 +92,15 @@ export class UserService {
             // const password = `${checkIfUserExist.firstName}_${checkIfUserExist.lastName}_${checkIfUserExist.id}_A%`
             const password = "Adis123%"
             // console.log(password, " password");
-            await this.mailerService.sendMail({
-                to: checkIfUserExist.email,
-                subject: "Recovered Password",
-                template: "confirmation",
-                context: {
-                    name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
-                    url: `Your new password is ${password}. You can change password from your profile after you loggin.`
-                }
-            })
+            // await this.mailerService.sendMail({
+            //     to: checkIfUserExist.email,
+            //     subject: "Recovered Password",
+            //     template: "confirmation",
+            //     context: {
+            //         name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
+            //         url: `Your new password is ${password}. You can change password from your profile after you loggin.`
+            //     }
+            // })
             checkIfUserExist.password = await hash(password, 10)
             // console.log(checkIfUserExist);
             
@@ -119,11 +119,11 @@ export class UserService {
 
         const newUser = new UserEntity() as any
         Object.assign(newUser, createUserDTO)
-        // newUser.isAuth = true;
+        newUser.isAuth = true;
 
         await this.userRepository.save(newUser)
         await this.userRepository.findOne({ where: { email: newUser.email } })
-        this.sendUserConfirmation(newUser)
+        // this.sendUserConfirmation(newUser)
 
         return newUser
     }
@@ -204,15 +204,15 @@ export class UserService {
             }
             foundClass.user = [...foundClass.user ,  foundUser]
             await this.classReposotory.save(foundClass)
-            await this.mailerService.sendMail({
-                to: email,
-                subject: "New Class",
-                template: "/.confirmation",
-                context: {
-                    name: `${foundUser.firstName} ${foundUser.lastName}`,
-                    url: `You are added to new class ${foundClass.schoolClass} ${foundClass.departmant} in school ${foundClass.school}`
-                }
-            })
+            // await this.mailerService.sendMail({
+            //     to: email,
+            //     subject: "New Class",
+            //     template: "/.confirmation",
+            //     context: {
+            //         name: `${foundUser.firstName} ${foundUser.lastName}`,
+            //         url: `You are added to new class ${foundClass.schoolClass} ${foundClass.departmant} in school ${foundClass.school}`
+            //     }
+            // })
         }
 
 
@@ -245,15 +245,15 @@ export class UserService {
             // console.log(foundClass);
             // await this.classReposotory.createQueryBuilder().insert().relation(foundUser: UserEntity,)
             await this.classReposotory.save(foundClass)
-            await this.mailerService.sendMail({
-                to: newStudent.email,
-                subject: "Password",
-                template: "studentMail",
-                context: {
-                    name: `${newStudent.firstName} ${newStudent.lastName}`,
-                    info: `Your new password is ${newStudent.password}. You can change password in profile page after you loggin`
-                }
-            })
+            // await this.mailerService.sendMail({
+            //     to: newStudent.email,
+            //     subject: "Password",
+            //     template: "studentMail",
+            //     context: {
+            //         name: `${newStudent.firstName} ${newStudent.lastName}`,
+            //         info: `Your new password is ${newStudent.password}. You can change password in profile page after you loggin`
+            //     }
+            // })
             return newStudent
         }
 
@@ -310,21 +310,76 @@ export class UserService {
 
         async sendMessage(sendMessageDTO : SendMessageDTO){
             
-            await this.mailerService.sendMail({
-                to: sendMessageDTO.teacherEmail,
-                subject: `Student: ${sendMessageDTO.studentName} : ${sendMessageDTO.title}`,
-                template: './studentMail',
-                context: {
-                  teacherFullName : sendMessageDTO.teacherFullName,
-                  school : sendMessageDTO.school,
-                  schoolClass : sendMessageDTO.schoolClass,
-                  classCode : sendMessageDTO.classCode,
-                  student : sendMessageDTO.studentName,
-                  email : sendMessageDTO.studentEmail,
-                  title : sendMessageDTO.title,
-                  message : sendMessageDTO.message
-                },
-            });
+            // await this.mailerService.sendMail({
+            //     to: sendMessageDTO.teacherEmail,
+            //     subject: `Student: ${sendMessageDTO.studentName} : ${sendMessageDTO.title}`,
+            //     template: './studentMail',
+            //     context: {
+            //       teacherFullName : sendMessageDTO.teacherFullName,
+            //       school : sendMessageDTO.school,
+            //       schoolClass : sendMessageDTO.schoolClass,
+            //       classCode : sendMessageDTO.classCode,
+            //       student : sendMessageDTO.studentName,
+            //       email : sendMessageDTO.studentEmail,
+            //       title : sendMessageDTO.title,
+            //       message : sendMessageDTO.message
+            //     },
+            // });
+        }
+
+        async retriveStudent(email : string) {
+            const user = await this.userRepository.findOneBy({
+                email:email
+            })
+            if(!user){
+                throw new HttpException("User not Found", HttpStatus.BAD_REQUEST)
+
+            }
+            user.isAuth = true;
+            try {
+                await this.userRepository.save(user)
+                     // await this.mailerService.sendMail({
+            //     to: user.email,
+            //     subject: "Eschool",
+            //     template: "message",
+            //     context: {
+            //         name: `${user.firstName} ${user.lastName}`,
+            //         info: `Your account is reactivated. Your password is same as it was before deactivation`
+            //     }
+            // })
+                return user
+            } catch (error) {
+                throw new HttpException(error.message,HttpStatus.INTERNAL_SERVER_ERROR)
+                
+            }
+        }
+        async deactivateAccount(id : number) {
+            const user = await this.userRepository.findOneBy({
+                id:id
+            })
+            if(!user){
+                throw new HttpException("User not Found", HttpStatus.BAD_REQUEST)
+
+            }
+            user.isAuth = false;
+            try {
+                await this.userRepository.save(user)
+                  // await this.mailerService.sendMail({
+            //     to: user.email,
+            //     subject: "Eschool",
+            //     template: "message",
+            //     context: {
+            //         name: `${user.firstName} ${user.lastName}`,
+            //         info: `Your account is deactivated. Please contact your teacher for more information`
+            //     }
+            // })
+                console.log(user);
+                
+                return user
+            } catch (error) {
+                throw new HttpException(error.message,HttpStatus.INTERNAL_SERVER_ERROR)
+                
+            }
         }
 
 }

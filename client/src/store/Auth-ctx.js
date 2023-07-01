@@ -124,6 +124,7 @@ const Navigate = useNavigate()
   return (
     <AuthContex.Provider
       value={{
+        setIsLogged,
         pageNotFoundHandler,
         isLogged,
         onLogin: loginHandler,

@@ -65,8 +65,18 @@ export class UserController {
         // return ({         message :    `Password is changed to ${body.password}. Check your email`})       
              return await this.userService.updatePassword(body)
         
+            }
+    @Post("api/user/deactivate")
+    async deactivateAccount(@Body("id", ParseIntPipe) id : number){
+        console.log(id);
         
+     return await this.userService.deactivateAccount(id)
     }
+    @Post("api/user/retriveStudent")
+    async retriveStudent(@Body("email") email : string){
+        return await this.userService.retriveStudent(email)
+    }
+        
 
     @Post("api/user/newstudent")
     async addStudent(@Body() createStudentDTO : CreateStudentDTO): Promise <any>{

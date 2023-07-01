@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, useRef } from "react";
 import Tab from "react-bootstrap/Tab";
 import Accordion from "react-bootstrap/Accordion";
 import Card from 'react-bootstrap/Card';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import AuthContex from "../../../store/Auth-ctx";
 import Tabs from "react-bootstrap/esm/Tabs";
 import Button from "react-bootstrap/esm/Button";
@@ -23,6 +23,9 @@ const Student = (props) => {
   const [myNews, setMyNews] = useState([])
   const classesId = info ? info.classes.map(x => x.id) : null
   const [message, setMessage] = useState("")
+  const [deactiveProfile, setDeactivateProfile] = useState(false)
+  const [returnToLogin, setReturnToLogin] = useState(false)
+
   const [teachers, setTeachers] = useState(
     JSON.parse(localStorage.getItem("MyClasses"))
   );
@@ -31,7 +34,8 @@ const Student = (props) => {
   const [enterPasswordChangePassword, setEnterPasswordChangePassword] = useState("");
 const [isError, setIsError] = useState(null)
 const enteredPasswordChangePasswordRef = useRef();
-
+const deactivateProfilOpenModalHandler = () => setDeactivateProfile(true)
+const deactivateProfilOpenModalCloseHandler = () => setDeactivateProfile(false)
   const ctx = useContext(AuthContex);
 if(!url){
   setUrl(avatar)
@@ -132,6 +136,34 @@ const eneterPasswordChangePasswordOnChange = (e) => {
       // setObj(infoData)
     }) 
   }   
+  
+  const onSubmitDeactivateProfilHandler = e =>{
+    e.preventDefault()
+    console.log(user);
+      // fetch("http://localhost:4000/api/user/deactivate", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/deactivate", {
+          method: "POST",
+          mode: "cors",
+          body: JSON.stringify({
+            id: `${user.id}`,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((resolve) => resolve.json())
+          .then((data) =>{
+            console.log(data);
+            setMessage("Your account is deactivated.")
+            setTimeout(() => {
+              setMessage("")
+              setReturnToLogin(true)
+              ctx.setIsLogged(false)
+              console.log(ctx.isLogged);
+              console.log(returnToLogin);
+            }, 5000);
+          })
+
+  }
   const uploadFileHandler = (event) => {
     event.preventDefault();
     const options = {
@@ -200,8 +232,27 @@ const onSubmitChangePasswordHandler = e =>{
     setOpenChangePassword(false)
   }, 3000);
 }
+
+
     return (
     <>
+    {returnToLogin && <Navigate to={"/Login"}></Navigate>}
+    {deactiveProfile && <OpenModal
+    title = "Deactivate profile"
+    body = {
+      <>
+      <p>
+
+      Are you sure? You will be able to retrive account only if teacher reactivated it.
+      </p>
+      <Button onClick={onSubmitDeactivateProfilHandler}>Yes I am sure</Button> <Button onClick={deactivateProfilOpenModalCloseHandler}>No</Button>
+      </>
+    }
+    message = {message}
+    onHide = {deactivateProfilOpenModalCloseHandler}
+    show= {deactiveProfile}
+    ></OpenModal>}
+   
         {isError && (<OpenModal
     title={isError.title}
     body={isError.message}
@@ -263,6 +314,9 @@ const onSubmitChangePasswordHandler = e =>{
 
         <Button onClick={uploadFileHandler}>Upload picture</Button>
         <Button onClick={openChangePasswordModalHandler}>Change password</Button>
+        <Button onClick={deactivateProfilOpenModalHandler}>Deactivate Profile</Button>
+
+        
         </div>
       </Tab>
       <Tab eventKey="classes" title="Classes" >

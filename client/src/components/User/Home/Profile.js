@@ -34,15 +34,26 @@ const Profile = (props) => {
   const [url, setUrl] = useState(localStorage.getItem("profile_picture"));
   const [openChangePassword, setOpenChangePassword] = useState(false);
   const [enterPasswordChangePassword, setEnterPasswordChangePassword] = useState("");
+  const [deactiveProfile, setDeactivateProfile] = useState(false)
+  const [retriveStudent, setRetriveStudent] = useState(false)
+  const [enteredStudentEmail, setEnteredStudentEmail] = useState("")
 const [isError, setIsError] = useState(null)
   const enteredGradeRef = useRef();
   const enteredPasswordChangePasswordRef = useRef();
   const enteredDeleteGradeRef = useRef();
   const enteredNoteRef = useRef();
   const enteredNoteNbrRef = useRef();
+  const enteredStudentEmailRef = useRef()
   if (!url) {
     setUrl(avatar);
   }
+  const retriveStudentHandler = (e) => {
+  
+    setEnteredStudentEmail(enteredStudentEmailRef.current.value)
+  }
+
+  const deactivateProfilOpenModalHandler = () => setDeactivateProfile(true)
+  const deactivateProfilOpenModalCloseHandler = () => setDeactivateProfile(false)
   const uploadFileHandler = (event) => {
     event.preventDefault();
     const options = {
@@ -255,9 +266,63 @@ const [isError, setIsError] = useState(null)
 
   const openChangePasswordModalHandler = (e) => {
     e.preventDefault()
-    console.log("aaaaaaaaaaa");
     setOpenChangePassword(true);
   };
+
+  const onSubmitDeactivateProfilHandler = e =>{
+    e.preventDefault()
+      // fetch("http://localhost:4000/api/user/deactivate", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/deactivate", {
+          method: "POST",
+          mode: "cors",
+          body: JSON.stringify({
+            id: user.id,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resolve) => resolve.json())
+          .then(data =>{
+            console.log(data);
+            setMessage("Your account is deactivated.")
+            setTimeout(() => {
+              setMessage("")
+              
+            }, 5000);
+          })
+
+  }
+  const onSubmitRetriveStudentProfilHandler = e =>{
+    console.log("retrive");
+    e.preventDefault()
+      // fetch("http://localhost:4000/api/user/retriveStudent", {
+        fetch("https://eschool-pw0m.onrender.com/api/user/retriveStudent", {
+          method: "POST",
+          mode: "cors",
+          body: JSON.stringify({
+            email: enteredStudentEmail,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resolve) => resolve.json())
+          .then(data =>{
+            console.log(data);
+            setMessage(`Account ${data.firstName} ${data.lastName} is reactivated.`)
+            setTimeout(() => {
+              setMessage("")
+              
+            }, 5000);
+          })
+          setEnteredStudentEmail("")
+          setTimeout(() => {
+            
+            setRetriveStudent(false)
+          }, 5000);
+
+  }
 
 const onSubmitChangePasswordHandler = e =>{
   e.preventDefault()
@@ -299,6 +364,36 @@ const onSubmitChangePasswordHandler = e =>{
 }
   return (
     <>
+    {retriveStudent &&( <OpenModal
+    show={retriveStudent}
+    onHide={()=> setRetriveStudent(false)}
+    message = {message}
+    title = "Reactivate student account"
+    body={ <>
+    <form onSubmit={onSubmitRetriveStudentProfilHandler}>
+
+        <p>Are you sure that you want to reactivate this profile?</p> 
+        <input type="email" ref={enteredStudentEmailRef} value={enteredStudentEmail} onChange={retriveStudentHandler}  placeholder="Enter email"></input>
+        <Button type="submit">Reactivate Profile</Button>
+    </form>
+    </>
+    }
+    ></OpenModal>)}
+    {deactiveProfile && <OpenModal
+    title = "Deactivate profile"
+    body = {
+      <>
+      <p>
+
+      Are you sure? You will be able to retrive account only if you have initial email for activation profile.
+      </p>
+      <Button onClick={onSubmitDeactivateProfilHandler}>Yes I am sure</Button> <Button onClick={deactivateProfilOpenModalCloseHandler}>No</Button>
+      </>
+    }
+    message = {message}
+    onHide = {deactivateProfilOpenModalCloseHandler}
+    show= {deactiveProfile}
+    ></OpenModal>}
     {isError && (<OpenModal
     title={isError.title}
     body={isError.message}
@@ -461,6 +556,8 @@ const onSubmitChangePasswordHandler = e =>{
                 <Button onClick={openChangePasswordModalHandler}>
                   Change password
                 </Button>
+                <Button onClick={deactivateProfilOpenModalHandler}>Deactivate Profile</Button>
+                <Button onClick={()=> setRetriveStudent(true)}>Reactivate student account</Button>
               </div>
             </Tab>
             <Tab eventKey="classes" title="Classes">
