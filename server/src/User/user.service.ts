@@ -64,6 +64,7 @@ export class UserService {
                     info: `Your new password is ${password}`
                 }
             })
+    
             checkIfUserExist.password = await hash(password, 10)
             // console.log(checkIfUserExist);
             
