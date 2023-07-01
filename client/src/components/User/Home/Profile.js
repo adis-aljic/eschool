@@ -270,8 +270,8 @@ const onSubmitChangePasswordHandler = e =>{
     });
     return;
   }
-  fetch("http://localhost:4000/api/user/updatePassword", {
-      // fetch("https://eschool-pw0m.onrender.com/api/user/updatePassword", {
+  // fetch("http://localhost:4000/api/user/updatePassword", {
+      fetch("https://eschool-pw0m.onrender.com/api/user/updatePassword", {
 
       method: "POST",
       mode: "cors",
