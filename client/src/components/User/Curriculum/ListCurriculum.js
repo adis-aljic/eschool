@@ -22,7 +22,7 @@ const ListCurriculum = (props) => {
   );
   const [isError, setIsError] = useState(null)
   const [monthlyPlan, setMonthlyPlan] = useState(false);
-
+    const [classes, setClasses] = useState(JSON.parse(localStorage.getItem("MyClasses")))
   const [numberOfClassesPerWeek, setNumberOfClassesPerWeek] = useState(null);
   const [enteredClassCode, setClassCode] = useState("");
   const [pdf, setPdf] = useState(false);
@@ -34,7 +34,6 @@ const ListCurriculum = (props) => {
   const inputClassCodeRef = useRef();
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const classes = JSON.parse(localStorage.getItem("MyClasses"));
 // console.log(classes);
   const numberOfClassesPerWeekHandler = (e) => setNumberOfClassesPerWeek(parseInt(e.target.value));
   const classCodeHandler = (e) => setClassCode(e.target.value.toUpperCase());
