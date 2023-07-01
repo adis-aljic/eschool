@@ -5,6 +5,7 @@ import OpenModal from '../../UI/Modal';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
+import "./AboutModal.css"
 
 const AddStudent = (props) => {
   const Navigate = useNavigate();
@@ -33,16 +34,16 @@ const AddStudent = (props) => {
     setEnteredLastName(inputLastNameRef.current.value);
   };
   const abrevationHandler = (e) => {
-    setEnteredAbrevation(inputAbrevationRef.current.value);
+    setEnteredAbrevation(inputAbrevationRef.current.value.toUpperCase());
   };
   const abrevationHandler1 = (e) => {
-    setEnteredAbrevation1(inputAbrevationRef1.current.value);
+    setEnteredAbrevation1(inputAbrevationRef1.current.value.toUpperCase());
   };
   const emailHandler = (e) => {
-    setEnteredEmail(inputEmailRef.current.value);
+    setEnteredEmail(inputEmailRef.current.value.toLowerCase());
   };
   const existEmailHandler = (e) => {
-    setEnteredExistEmail(existEmailRef.current.value);
+    setEnteredExistEmail(existEmailRef.current.value.toLowerCase());
   };
   const existingStudentHandler = e=>{
     e.preventDefault()
@@ -173,7 +174,7 @@ const AddStudent = (props) => {
   const errorHandler = () => setIsError(false)
   return (
     <>
-        <span class="badge rounded-pill text-bg-primary" style={{cursor: "pointer"}} onClick={()=> setIsError({title : "Add student information",
+        <span class="badge rounded-pill text-bg-primary aboutModal"  onClick={()=> setIsError({title : "Add student information",
 message : <div>1. On the left side, you can find a list of all registered classes.<br></br>
 2. You can refresh the list at any moment by clicking the "Refresh" button.<br></br>
 3. On the right side, you can add a new student.<br></br>
@@ -191,7 +192,7 @@ message : <div>1. On the left side, you can find a list of all registered classe
 
 </ul>
 
-</div>})}>About <svg style={{marginRight: "5%"}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+</div>})}>About <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
 </svg></span>
@@ -206,8 +207,10 @@ message : <div>1. On the left side, you can find a list of all registered classe
         />
       )}
       <Form onSubmit={addStudentHandler}>
-        <h1>Add new student</h1>
+        <h1 className='headingAdminPanel'>Add new student</h1>
         <Form.Control
+                 data-toggle="tooltip" data-placement="top" title="Enter first name of student"
+
           type="text"
           size='lg'
           name="firstName"
@@ -217,6 +220,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           onChange={firstNameHandler}
           maxLength={10}></Form.Control>
         <Form.Control
+                         data-toggle="tooltip" data-placement="top" title="Enter last name of student"
+
           type="text"
           size='lg'
           name="lastName"
@@ -227,6 +232,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           maxLength={20}></Form.Control>
 
         <Form.Control
+                         data-toggle="tooltip" data-placement="top" title="Enter students email"
+
           type="email"
           size='lg'
           name="email"
@@ -235,6 +242,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           ref={inputEmailRef}
           onChange={emailHandler}></Form.Control>
         <Form.Control
+                         data-toggle="tooltip" data-placement="top" title="Enter class code for class where you want add student"
+
           type="text"
           size='lg'
           name="abrevation"
@@ -249,11 +258,13 @@ message : <div>1. On the left side, you can find a list of all registered classe
 
       <div className='row'>
         
-       <h1> Add existing student by email </h1>
+       <h1 className='headingAdminPanel'> Add existing student by email </h1>
       </div>
       <br></br>
        <form onSubmit={existingStudentHandler}>
         <Form.Control
+                         data-toggle="tooltip" data-placement="top" title="Enter email of student"
+
         ref={existEmailRef}
         value={enteredExistEmail}
         type='text'
@@ -262,6 +273,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
         placeholder='Email'
         ></Form.Control>
         <Form.Control
+                         data-toggle="tooltip" data-placement="top" title="Enter class code for class where you want add student"
+
         ref={inputAbrevationRef1}
         value={enteredAbrevation1}
         type='text'

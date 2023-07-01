@@ -1,35 +1,57 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import Tab from "react-bootstrap/Tab";
 import Accordion from "react-bootstrap/Accordion";
 import Card from 'react-bootstrap/Card';
-
 import { Link } from "react-router-dom";
 import AuthContex from "../../../store/Auth-ctx";
 import Tabs from "react-bootstrap/esm/Tabs";
+import Button from "react-bootstrap/esm/Button";
+import classes from "./Student.module.css"
+import * as filestack from 'filestack-js';
+import {API_KEY} from "../../../firestack"
+import avatar from '../../../assets/avatar.jpg'
+import validatePassword from "../../Login/passwordValidation";
+import OpenModal from "../../UI/Modal";
 
+const client = filestack.init(API_KEY); 
 const Student = (props) => {
+  
   const user = JSON.parse(localStorage.getItem("user"));
   const [info, setInfo] = useState(JSON.parse(localStorage.getItem("profile")));
   const [key, setKey] = useState('profile');
   const [data ,setData] = useState([])
   const [myNews, setMyNews] = useState([])
   const classesId = info ? info.classes.map(x => x.id) : null
+  const [message, setMessage] = useState("")
+  const [teachers, setTeachers] = useState(
+    JSON.parse(localStorage.getItem("MyClasses"))
+  );
+  const [url, setUrl] = useState(localStorage.getItem("profile_picture"))
+  const [openChangePassword, setOpenChangePassword] = useState(false);
+  const [enterPasswordChangePassword, setEnterPasswordChangePassword] = useState("");
+const [isError, setIsError] = useState(null)
+const enteredPasswordChangePasswordRef = useRef();
 
-useEffect(()=>{
-
-  data.map(x => {
-    classesId.map(id =>{
+  const ctx = useContext(AuthContex);
+if(!url){
+  setUrl(avatar)
+}
+  useEffect(()=>{
+    
+  data.forEach(x => {
+    classesId.forEach(id =>{
       if(data.classId === id){
         setMyNews((news)=> myNews.push(news))
       }
     })
   }) 
-})
+},[myNews])
   
-  const [teachers, setTeachers] = useState(
-    JSON.parse(localStorage.getItem("MyClasses"))
-  );
-  const ctx = useContext(AuthContex);
+
+const eneterPasswordChangePasswordOnChange = (e) => {
+  setEnterPasswordChangePassword(e.target.value);
+  console.log(enterPasswordChangePassword);
+};
 
   useEffect(() => {
 
@@ -84,11 +106,15 @@ useEffect(()=>{
   }, []);
 
   const infoData = [];
-  if (info) {
-    const codes = info.classes.map((code) => code.abbrevation);
-    codes.map((x) => {
-       teachers.map((teacher) => {
-        teacher.classes.map((sClass) => {
+  console.log(info);
+  console.log(teachers);
+       if(info){
+
+         const codes = info.classes.map((code) => code.abbrevation);
+         console.log(codes);
+         codes.map((x) => {
+           teachers.map((teacher) => {
+         teacher.classes.map((sClass) => {
           if (x === sClass.abbrevation) {
             const obj = {
               code: x,
@@ -105,9 +131,103 @@ useEffect(()=>{
       }) 
       // setObj(infoData)
     }) 
+  }   
+  const uploadFileHandler = (event) => {
+    event.preventDefault();
+    const options = {
+        maxFiles: 1,
+        fromSources : ["local_file_system"],
+        // accept: ["image/*",".image/jpeg",".pdf","text/*"],
+        // acceptFn: (file, options) => {
+        //   const mimeFromExtension = options.mimeFromExtension(file.originalFile.name);
+        //   if(options.acceptMime.length && !options.acceptMime.includes(mimeFromExtension)) {
+        //     return Promise.reject('Cannot accept that file. Please upload txt, pdf or image file.')
+        //   }
+        //   return Promise.resolve()
+        // },
+        uploadInBackground: false,
+        onUploadDone: (res) => {
+            const url = res.filesUploaded[0].url
+            setUrl(url)
+            localStorage.setItem("profile_picture", url)
+        },
+    };
+    client.picker(options).open()
+    
+  };
+  
+  const openChangePasswordModalHandler = (e) => {
+    e.preventDefault()
+    console.log("aaaaaaaaaaa");
+    setOpenChangePassword(true);
+  };
+
+const onSubmitChangePasswordHandler = e =>{
+  e.preventDefault()
+  console.log(enterPasswordChangePassword);
+  if (!validatePassword(enterPasswordChangePassword)) {
+    setIsError({
+      title: "Invalid password format",
+      message:
+        "Password must contain one capital letter, one special character, one number and at least 8 characters",
+    });
+    return;
   }
-  return (
+  // fetch("http://localhost:4000/api/user/updatePassword", {
+      fetch("https://eschool-pw0m.onrender.com/api/user/updatePassword", {
+
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        email: user.email,
+        password : enterPasswordChangePassword
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resolve) => resolve.json())
+      .then((data) => {
+        // console.log(data[0]);
+        setMessage(data.message)
+        setTimeout(() => {
+          setMessage("")
+        }, 2000);
+      });
+  setEnterPasswordChangePassword("")
+  setTimeout(() => {
+    
+    setOpenChangePassword(false)
+  }, 3000);
+}
+    return (
     <>
+        {isError && (<OpenModal
+    title={isError.title}
+    body={isError.message}
+    show={isError}
+    onHide={()=>setIsError(null)}
+    ></OpenModal>)}
+      {openChangePassword && (
+        <OpenModal
+          title="Change password"
+          show={openChangePassword}
+          body={
+            <form onSubmit={onSubmitChangePasswordHandler}>
+              <input
+                type="text"
+                value={enterPasswordChangePassword}
+                onChange={eneterPasswordChangePasswordOnChange}
+                ref={enteredPasswordChangePasswordRef}
+                placeholder="Enter new password"
+              ></input>
+              <Button type="submit">Submit</Button>
+            </form>
+          }
+          message={message}
+          onHide={() => setOpenChangePassword(false)}
+        ></OpenModal>
+      )}
     <div className="container">
     <div className="row">
 
@@ -125,7 +245,10 @@ useEffect(()=>{
           <Tab eventKey="profile" title="Profile" >
         <ul >
           <li key={info ? info.id : 1}>
+            <br></br>
             <h2>Profile</h2>
+            <br></br>
+            <img src={url} className={classes.profile_img} alt="profile picure"></img>
             <br></br>
             Name :{" "}
             {info ? `${info.firstName}  ${info.lastName}` : ""}
@@ -136,6 +259,11 @@ useEffect(()=>{
             <br></br>
           </li>
         </ul>{" "}
+        <div className={classes.btns}>
+
+        <Button onClick={uploadFileHandler}>Upload picture</Button>
+        <Button onClick={openChangePasswordModalHandler}>Change password</Button>
+        </div>
       </Tab>
       <Tab eventKey="classes" title="Classes" >
       <Accordion>
@@ -159,7 +287,18 @@ useEffect(()=>{
                         <p >
                           <h3>Notes</h3>
                           {info.notes
-                            ? info.notes.map((note) => note.note).join(" \n")
+                            ? info.notes.map((note) => `${note.note}   Created: ${
+                              new Date(
+                              note.createdAt
+                            ).toLocaleDateString(
+                              "en-us",
+                              {
+                                year: "numeric",
+                                month:
+                                  "short",
+                                day: "numeric",
+                              }
+                            )}` ).join(" \n")
                             : " No notes"}
                         </p>
                         <br></br>

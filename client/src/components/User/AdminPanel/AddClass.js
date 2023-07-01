@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import { useNavigate } from "react-router-dom";
 import AuthContex from '../../../store/Auth-ctx';
+import "./AboutModal.css"
 const AddClass = (props) => {
   const Navigate = useNavigate();
   const ctx = useContext(AuthContex)
@@ -25,24 +26,24 @@ const AddClass = (props) => {
   const inputSubjectRef = useRef();
 
   const subjectHandler = (e) => {
-    setEnteredSubject(inputSubjectRef.current.value);
+    setEnteredSubject(inputSubjectRef.current.value.toUpperCase());
   };
 
   const schoolHandler = (e) => {
-    setEnteredSchool(inputSchoolRef.current.value);
+    setEnteredSchool(inputSchoolRef.current.value.toUpperCase());
   };
   const classHandler = (e) => {
     setEnteredClass(inputClassRef.current.value);
   };
   const departmantHandler = (e) => {
-    setEnteredDepartmant(inputDepartmantRef.current.value);
+    setEnteredDepartmant(inputDepartmantRef.current.value.toUpperCase());
   };
   const cityHandler = (e) => {
-    setEnteredCity(inputCityRef.current.value);
+    setEnteredCity(inputCityRef.current.value.toUpperCase());
   };
 
   const changeAbbHandler = () => {
-    setEnteredAbrevation(inputAbbRef.current.value);
+    setEnteredAbrevation(inputAbbRef.current.value.toUpperCase());
   };
   const registerClassHandler = () => ctx.RegisterClassNavHandler("regClass")
 
@@ -112,7 +113,7 @@ const AddClass = (props) => {
     
 
 <>
-<span class="badge rounded-pill text-bg-primary" style={{cursor: "pointer"}} onClick={()=> setIsError({title : "Add class information",
+<span className="badge rounded-pill text-bg-primary aboutModal" onClick={()=> setIsError({title : "Add class information",
 message : <div>1. On the left side, you can find a list of all registered classes.<br></br>
 2. You can refresh the list at any moment by clicking the "Refresh" button.<br></br>
 3. On the right side, you can add a new class.<br></br>
@@ -157,8 +158,9 @@ message : <div>1. On the left side, you can find a list of all registered classe
 
   
       <Form onSubmit={addClassHandler}  className='col'>
-        <h1>Add new class</h1>
+        <h1 className='headingAdminPanel'>Add new class</h1>
         <Form.Control
+         data-toggle="tooltip" data-placement="top" title="Enter name of School"
           type="text"
           name="school"
           placeholder="School"
@@ -168,6 +170,7 @@ message : <div>1. On the left side, you can find a list of all registered classe
           onChange={schoolHandler}
           maxLength={25}></Form.Control>
         <Form.Control
+         data-toggle="tooltip" data-placement="top" title="Enter name of city where is school located"
           type="text"
           size='lg'
           name="city"
@@ -178,6 +181,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           maxLength={20}></Form.Control>
   
         <Form.Control
+                 data-toggle="tooltip" data-placement="top" title="Enter class from 1 to 9"
+
           type="number"
           name="class"
           min={1}
@@ -190,6 +195,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           maxLength={1}></Form.Control>
 
         <Form.Control
+                 data-toggle="tooltip" data-placement="top" title="Enter departmant, only one character"
+
           type="text"
           name="departmant"
           placeholder="Departmant"
@@ -199,6 +206,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           onChange={departmantHandler}
           maxLength={1}></Form.Control>
         <Form.Control
+                 data-toggle="tooltip" data-placement="top" title="Enter class code. See about for more information"
+
           type="text"
           name="abrevation"
           placeholder="Abrevation ex. ETS_2A"
@@ -207,6 +216,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           size='lg'
           ref={inputAbbRef}></Form.Control>
               <Form.Control
+                       data-toggle="tooltip" data-placement="top" title="Enter subject that you teacher"
+
           type="text"
           name="subject"
           placeholder="Enter subject"

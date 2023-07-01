@@ -58,6 +58,16 @@ export class UserController {
         return this.userService.recievedNewPass(email)
     }
 
+    @Post("api/user/updatePassword")
+    async updatePassword(@Body() body : any){
+       
+        console.log(body);
+        // return ({         message :    `Password is changed to ${body.password}. Check your email`})       
+             return await this.userService.updatePassword(body)
+        
+        
+    }
+
     @Post("api/user/newstudent")
     async addStudent(@Body() createStudentDTO : CreateStudentDTO): Promise <any>{
             console.log(createStudentDTO);

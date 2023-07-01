@@ -40,6 +40,40 @@ export class UserService {
     }
 
 
+    async updatePassword(body : any){
+        const checkIfUserExist = await this.userRepository.findOne({
+            select: ["id", "email", "firstName", "lastName", "password"],
+            where: { email: body.email }
+        })
+
+        // console.log(checkIfUserExist.password);
+
+        if (!checkIfUserExist) {
+
+            throw new HttpException("User doesent exist", HttpStatus.UNPROCESSABLE_ENTITY)
+        }
+        else {
+
+            const password = body.password
+            await this.mailerService.sendMail({
+                to: checkIfUserExist.email,
+                subject: "New Password Eschool",
+                template: "message",
+                context: {
+                    name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
+                    info: `Your new password is ${password}`
+                }
+            })
+            checkIfUserExist.password = await hash(password, 10)
+            // console.log(checkIfUserExist);
+            
+            await this.userRepository.save(checkIfUserExist)
+            return ({         message :    `Password is changed to ${body.password}. Check your email`
+        })
+        }
+
+    }
+
     async recievedNewPass(email: string) {
         const checkIfUserExist = await this.userRepository.findOne({
             select: ["id", "email", "firstName", "lastName", "password"],
@@ -63,7 +97,7 @@ export class UserService {
                 template: "confirmation",
                 context: {
                     name: `${checkIfUserExist.firstName} ${checkIfUserExist.lastName}`,
-                    url: `Your new password is ${password}`
+                    url: `Your new password is ${password}. You can change password from your profile after you loggin.`
                 }
             })
             checkIfUserExist.password = await hash(password, 10)
@@ -84,7 +118,7 @@ export class UserService {
 
         const newUser = new UserEntity() as any
         Object.assign(newUser, createUserDTO)
-        newUser.isAuth = true;
+        // newUser.isAuth = true;
 
         await this.userRepository.save(newUser)
         await this.userRepository.findOne({ where: { email: newUser.email } })
@@ -210,15 +244,15 @@ export class UserService {
             // console.log(foundClass);
             // await this.classReposotory.createQueryBuilder().insert().relation(foundUser: UserEntity,)
             await this.classReposotory.save(foundClass)
-            // await this.mailerService.sendMail({
-            //     to: newStudent.email,
-            //     subject: "Password",
-            //     template: "studentMail",
-            //     context: {
-            //         name: `${newStudent.firstName} ${newStudent.lastName}`,
-            //         info: `Your new password is ${newStudent.password}`
-            //     }
-            // })
+            await this.mailerService.sendMail({
+                to: newStudent.email,
+                subject: "Password",
+                template: "studentMail",
+                context: {
+                    name: `${newStudent.firstName} ${newStudent.lastName}`,
+                    info: `Your new password is ${newStudent.password}. You can change password in profile page after you loggin`
+                }
+            })
             return newStudent
         }
 

@@ -11,7 +11,7 @@ import { join } from 'path';
                 transport: {
                     host: config.get("MAIL_HOST"),
                     secure: true,
-                    port : 587,
+                    port : 465,
                     auth: {
                         user: config.get('MAIL_USER'),
                         pass: config.get('MAIL_PASSWORD'),

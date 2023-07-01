@@ -13,20 +13,17 @@ constructor(@InjectRepository(NoteEntity) private readonly noteRepository : Repo
 @InjectRepository(UserEntity) private readonly userRepository : Repository<UserEntity> ) {}
 
 async addNote(noteDTO : NoteDTO) : Promise <any> {
-    console.log(noteDTO);
     const student = await this.userRepository.findOneBy({id : noteDTO.studentId})
     const newNote = new NoteEntity()
     newNote.note = noteDTO.note
     newNote.teacherId = noteDTO.teacherId
     newNote.user = student
-    console.log(student);
-    console.log(newNote);
+  
 
      await this.noteRepository.save(newNote)
      throw new HttpException("Note is added" , HttpStatus.OK)        
 
-    
-    
+      
     }
     async deleteNote(noteId : number){
 

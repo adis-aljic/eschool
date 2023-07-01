@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Loader from '../../UI/Loader';
 import OpenModal from '../../UI/Modal';
 import styles from "./AdminPanel.module.css"
+import "./AboutModal.css"
 import { useNavigate } from "react-router-dom";
 const RegistrerClass = () => {
   const [searchSchool, setSearchSchool] = useState('');
@@ -31,7 +32,7 @@ const RegistrerClass = () => {
     )
   },[])
   const classCodeHandler = () => {
-    setEneteredClassCode(classCodeRef.current.value);
+    setEneteredClassCode(classCodeRef.current.value.toUpperCase());
   };
   const errorHandler = () =>{
     setIsError(null)
@@ -113,7 +114,7 @@ const RegistrerClass = () => {
   return (
     < >
     
-    <span class="badge rounded-pill text-bg-primary" style={{cursor: "pointer"}} onClick={()=> setIsError({title : "Register Class information",
+    <span class="badge rounded-pill text-bg-primary aboutModal"  onClick={()=> setIsError({title : "Register Class information",
 message : <div>1. On the left side, you can find a list of all registered classes.<br></br>
 2. You can refresh the list at any moment by clicking the "Refresh" button.<br></br>
 3. On the right side, you can register class.<br></br>
@@ -129,7 +130,7 @@ message : <div>1. On the left side, you can find a list of all registered classe
 
 </ul>
 
-</div>})}>About <svg style={{marginRight: "5%"}} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+</div>})}>About <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
 </svg></span>
@@ -142,19 +143,24 @@ message : <div>1. On the left side, you can find a list of all registered classe
           onHide={errorHandler}
         />
       )}
+      <br></br>
     <div className='container'>
       <div className='row'>
         <div className='col'>
 
  
 
-      <h1>Register class</h1>
+      <h1 className='headingAdminPanel'>Register class</h1>
+      <br></br>
       <Form.Control
         type="search"
         size='lg'
-        className='bg-primary text-light
+        className='bg-info text-light
+                         data-toggle="tooltip" data-placement="top" title="Enter class code for class where you want add student"
 
-        '
+        '                     
+            data-toggle="tooltip" data-placement="top" title="Search for all added class or schools"
+
         value={searchSchool}
         onChange={searchSchoolHandler}
         placeholder="Search ..."></Form.Control>
@@ -174,6 +180,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           <p>{text} </p>
           )}
           </ul>
+          <br></br>
+          <br></br>
       <Form onSubmit={onSubmitRegistrerClassHandler}>
         <Form.Control
           type="text"
@@ -181,6 +189,8 @@ message : <div>1. On the left side, you can find a list of all registered classe
           name="classCode"
           placeholder="Class Code"
           ref={classCodeRef}
+          data-toggle="tooltip" data-placement="top" title="Enter class code for class which you want register "
+
           value={enteredClassCode}
           onChange={classCodeHandler}></Form.Control>
         <Button  type="submit" style={{display:"flex", justifySelf : "center"}}>Register Class</Button>

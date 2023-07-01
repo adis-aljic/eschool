@@ -13,10 +13,11 @@
 }
 
 .list li{
-  background-color: aqua;
-  border: 1px dashed blue;
+  background-color: rgb(247, 248, 248);
   padding: 1rem;
   border-radius: 10px;
   margin-right: 2rem;
+  margin-bottom: 1rem;
 
 }
+

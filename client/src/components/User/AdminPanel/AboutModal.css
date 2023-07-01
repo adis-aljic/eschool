@@ -1,0 +1,9 @@
+.aboutModal{
+    cursor: pointer ;
+    float : right ;
+}
+
+.headingAdminPanel{
+    text-align: center;
+    margin: auto;
+}

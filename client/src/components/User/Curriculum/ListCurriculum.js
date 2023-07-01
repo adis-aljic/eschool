@@ -49,10 +49,28 @@ const ListCurriculum = (props) => {
   const mayRadioHandler = () => setChooseMonth("May");
   const juneRadioHandler = () => setChooseMonth("June");
     // if(props.showCurriculum){
+      
     useEffect(()=>{
+      // fetch('http://localhost:4000/api/classes/myclasses', {
+        fetch("https://eschool-pw0m.onrender.com/api/classes/myclasses", {
 
-      fetch(`http://localhost:4000/api/curriculum/list`, {
-        // fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify({
+        id: `${user.id}`,
+      }),     
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })  
+    .then((resolve) => resolve.json())
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem('MyClasses', JSON.stringify(data));
+        setClasses(data)
+      });
+      // fetch(`http://localhost:4000/api/curriculum/list`, {
+        fetch("https://eschool-pw0m.onrender.com/api/curriculum/list", {
       mode: "cors",
       method: "POST",
       body: JSON.stringify({
@@ -73,7 +91,7 @@ const ListCurriculum = (props) => {
         });
         Navigate("/error")
       });
-    },[props.showCurriculum]
+    },[]
     
   ) 
 
@@ -89,8 +107,8 @@ const ListCurriculum = (props) => {
     e.preventDefault()
     // const id = 
     // console.log(JSON.parse(e.target.value));
-    fetch(`http://localhost:4000/api/curriculum/deleteCurriculum`, {
-      // fetch("https://eschool-pw0m.onrender.com/api/curriculum/deleteCurriculum", {
+    // fetch(`http://localhost:4000/api/curriculum/deleteCurriculum`, {
+      fetch("https://eschool-pw0m.onrender.com/api/curriculum/deleteCurriculum", {
         mode: "cors",
         method: "POST",
         body: JSON.stringify({
@@ -112,7 +130,8 @@ const ListCurriculum = (props) => {
   }
   const onSubmitMonthlyPlanHandler = async (e) => {
     e.preventDefault();
-    // console.log(curriculum);
+    console.log(curriculum);
+    console.log( classes)
     monthlyPlanCloseHandler();
     setPdf(true);
     const year1 = findSchoolYear().year1;
@@ -149,6 +168,8 @@ const ListCurriculum = (props) => {
     const date5 = secondDate(week5)
     ? `${week5} - ${secondDate(week5)}`
     : undefined;
+    console.log(curriculum);
+    
     const currentCurriculum = curriculum.filter(({classCode})=> classCode === enteredClassCode);
     const currentClass = classes.filter((x) => x.abbrevation === enteredClassCode)
     const classesPerMonths = getClassesPerMonths(
@@ -199,28 +220,29 @@ const ListCurriculum = (props) => {
         text3Line4 : classesPerMonths
         .slice(numberOfClassesPerWeek * 2, numberOfClassesPerWeek * 3)[3],
         // text4: classesPerMonths
-        // .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4),
+        // .slice(numberOfClassesPerWeek * 3, numberOfClassesPerWeek * 4),
         text4Line1 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[0],
+        .slice(numberOfClassesPerWeek * 3, numberOfClassesPerWeek * 4)[0],
         text4Line2 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[1],
+        .slice(numberOfClassesPerWeek * 3, numberOfClassesPerWeek * 4)[1],
         text4Line3 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[2],
+        .slice(numberOfClassesPerWeek * 3, numberOfClassesPerWeek * 4)[2],
         text4Line4 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 3, classesPerMonths * 4)[3],
+        .slice(numberOfClassesPerWeek * 3, numberOfClassesPerWeek * 4)[3],
         // text5: classesPerMonths
-        // .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5),
+        // .slice(numberOfClassesPerWeek * 4, numberOfClassesPerWeek * 5),
         text5Line1 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[0],
+        .slice(numberOfClassesPerWeek * 4, numberOfClassesPerWeek * 5)[0],
         text5Line2 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[1],
+        .slice(numberOfClassesPerWeek * 4, numberOfClassesPerWeek * 5)[1],
         text5Line3 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[2],
+        .slice(numberOfClassesPerWeek * 4, numberOfClassesPerWeek * 5)[2],
         text5Line4 : classesPerMonths
-        .slice(numberOfClassesPerWeek * 4, classesPerMonths * 5)[3],
+        .slice(numberOfClassesPerWeek * 4, numberOfClassesPerWeek * 5)[3],
     };
     setFormData(data);
     setCurriculumClassCode(null)
+    console.log(data);
   };
 
   const pdfHandler = () => {
@@ -250,14 +272,19 @@ const ListCurriculum = (props) => {
                 <Form.Control
                   type="number"
                   min={1}
+                  max={4}
             size='lg'
                   ref={inputNumberOfClassesPerWeekRef}
                   value={numberOfClassesPerWeek}
                   required={true}
                   onChange={numberOfClassesPerWeekHandler}
                   placeholder="Number of classes/week"
+                  data-toggle="tooltip" data-placement="top" title="Number of classes you have per week"
+
                 ></Form.Control>
                 <Form.Control
+                            data-toggle="tooltip" data-placement="top" title="Class code for current curriculum"
+
             size='lg'
                   ref={inputClassCodeRef}
                   value={curriculumClassCode}
@@ -416,7 +443,7 @@ const ListCurriculum = (props) => {
                           .replaceAll("\t", " ")
                           .split("\n")
                           .map((item) => {
-                            return <li >{item}</li>;
+                            return <li key={item.id}>{item}</li>;
                           })}
                           <div className='curriculumButtons'>
 

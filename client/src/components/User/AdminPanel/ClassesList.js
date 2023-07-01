@@ -4,6 +4,7 @@ import styles from './AdminPanel.module.css';
 import Loader from '../../UI/Loader';
 import { useNavigate } from "react-router-dom";
 import OpenModal from '../../UI/Modal';
+import "./AboutModal.css"
 
 const ClassesList = (props) => {
   const Navigate = useNavigate();
@@ -74,9 +75,13 @@ const ClassesList = (props) => {
       <div className="container">
         <div className='row'>
           <div className='col'>
-          <Button  className={styles.btn} onClick={refreshListHandler}>Reload schools</Button>
+          <Button  className={styles.btn}                          
+          data-toggle="tooltip" data-placement="top" title="Reload and update classes"
+ onClick={refreshListHandler}>Reload schools</Button>
+          <br></br>
 
-          <h1>Classes:</h1>
+          <h1 className='headingAdminPanel'>Classes</h1>
+          <br></br>
           <ul className={styles.list}>
           {classes.length>0
             ? classes.map((classItem) => (

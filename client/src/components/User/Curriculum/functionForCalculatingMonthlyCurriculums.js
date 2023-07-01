@@ -140,7 +140,7 @@ const getClassesPerMonths = (curriculumString, schoolCalendar, numberOfclasses ,
    May: curriculum.splice(0,schoolCalendar[8].numWeeks*numberOfclasses),
     June:curriculum.splice(0,schoolCalendar[9].numWeeks*numberOfclasses)
   }
-
+  console.log(schoolCalendar);
 console.log(months);
   return months[month]
 

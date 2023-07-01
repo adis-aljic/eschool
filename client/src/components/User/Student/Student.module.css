@@ -1,0 +1,14 @@
+.btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: fit-content;
+    gap: 3rem;
+}
+
+.profile_img{
+    border-radius: 10px;
+    width: fit-content;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}

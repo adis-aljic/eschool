@@ -57,6 +57,19 @@ return(
       {  news.url ? <Card.Link download={true} target="_blank" href={news.url}>Download</Card.Link> : null}
 
       </Card.Body>
+      <Card.Footer>  <span style={{color : "black", fontSize:"smaller", float:"right"}}>  Created:{" "}
+                                                              {new Date(
+                                                                news.createdAt
+                                                              ).toLocaleDateString(
+                                                                "en-us",
+                                                                {
+                                                                  year: "numeric",
+                                                                  month:
+                                                                    "short",
+                                                                  day: "numeric",
+                                                                }
+                                                              )}
+                                                              </span></Card.Footer>
     </Card>
        
 

@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import "./Profile.css";
+import "../AdminPanel/AboutModal.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import OpenModal from "../../UI/Modal";
+import classes from "../Student/Student.module.css";
+import * as filestack from "filestack-js";
+import { API_KEY } from "../../../firestack";
+import avatar from "../../../assets/avatar.jpg";
+import validatePassword from "../../Login/passwordValidation";
+const client = filestack.init(API_KEY);
 const Profile = (props) => {
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
@@ -24,11 +31,45 @@ const Profile = (props) => {
   const [deleteGrade, setDeleteGrade] = useState(false);
   const [addNote, setAddNote] = useState(false);
   const [deleteNote, setDeleteNote] = useState(false);
-
+  const [url, setUrl] = useState(localStorage.getItem("profile_picture"));
+  const [openChangePassword, setOpenChangePassword] = useState(false);
+  const [enterPasswordChangePassword, setEnterPasswordChangePassword] = useState("");
+const [isError, setIsError] = useState(null)
   const enteredGradeRef = useRef();
+  const enteredPasswordChangePasswordRef = useRef();
   const enteredDeleteGradeRef = useRef();
   const enteredNoteRef = useRef();
   const enteredNoteNbrRef = useRef();
+  if (!url) {
+    setUrl(avatar);
+  }
+  const uploadFileHandler = (event) => {
+    event.preventDefault();
+    const options = {
+      maxFiles: 1,
+      fromSources: ["local_file_system"],
+      // accept: ["image/*",".image/jpeg",".pdf","text/*"],
+      // acceptFn: (file, options) => {
+      //   const mimeFromExtension = options.mimeFromExtension(file.originalFile.name);
+      //   if(options.acceptMime.length && !options.acceptMime.includes(mimeFromExtension)) {
+      //     return Promise.reject('Cannot accept that file. Please upload txt, pdf or image file.')
+      //   }
+      //   return Promise.resolve()
+      // },
+      uploadInBackground: false,
+      onUploadDone: (res) => {
+        const url = res.filesUploaded[0].url;
+        setUrl(url);
+        localStorage.setItem("profile_picture", url);
+      },
+    };
+    client.picker(options).open();
+  };
+
+  const eneterPasswordChangePasswordOnChange = (e) => {
+    setEnterPasswordChangePassword(e.target.value);
+    console.log(enterPasswordChangePassword);
+  };
 
   const clickedAddGradeHandler = (e) => {
     console.log(e.target.value);
@@ -89,8 +130,7 @@ const Profile = (props) => {
     e.preventDefault();
 
     // fetch("http://localhost:4000/api/grade/add", {
-      fetch("https://eschool-pw0m.onrender.com/api/grade/add", {
-
+    fetch("https://eschool-pw0m.onrender.com/api/grade/add", {
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -110,22 +150,19 @@ const Profile = (props) => {
           setMessage("");
         }, 1000);
         // fetch("http://localhost:4000/api/user/getstudents", {
-          fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
-    
+        fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
           mode: "cors",
           method: "GET",
         })
           .then((resolve) => resolve.json())
           .then((results) => setStudents(results));
-    
       });
     setEnteredGrade("");
   };
   const deleteGradeHandler = (e) => {
     e.preventDefault();
     // fetch("http://localhost:4000/api/grade/delete", {
-      fetch("https://eschool-pw0m.onrender.com//api/grade/delete", {
-
+    fetch("https://eschool-pw0m.onrender.com//api/grade/delete", {
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -143,22 +180,20 @@ const Profile = (props) => {
           setMessage("");
         }, 1000);
         // fetch("http://localhost:4000/api/user/getstudents", {
-          fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
-    
+        fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
           mode: "cors",
           method: "GET",
         })
           .then((resolve) => resolve.json())
           .then((results) => setStudents(results));
       });
-      
+
     setEnteredDeleteGrade("");
   };
   const addNoteHandler = (e) => {
     e.preventDefault();
     // fetch("http://localhost:4000/api/note/add", {
-      fetch("https://eschool-pw0m.onrender.com/api/note/add", {
-
+    fetch("https://eschool-pw0m.onrender.com/api/note/add", {
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -180,8 +215,7 @@ const Profile = (props) => {
       });
     setEnteredNote("");
     // fetch("http://localhost:4000/api/user/getstudents", {
-      fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
-
+    fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
       mode: "cors",
       method: "GET",
     })
@@ -191,8 +225,7 @@ const Profile = (props) => {
   const deleteNoteHandler = (e) => {
     e.preventDefault();
     // fetch("http://localhost:4000/api/note/delete", {
-      fetch("https://eschool-pw0m.onrender.com/api/note/delete", {
-
+    fetch("https://eschool-pw0m.onrender.com/api/note/delete", {
       method: "POST",
       mode: "cors",
       body: JSON.stringify({
@@ -210,7 +243,7 @@ const Profile = (props) => {
         }, 1000);
         // fetch("http://localhost:4000/api/user/getstudents", {
           fetch("https://eschool-pw0m.onrender.com/api/user/getstudents", {
-    
+
           mode: "cors",
           method: "GET",
         })
@@ -220,8 +253,78 @@ const Profile = (props) => {
     setEnteredNoteNbr("");
   };
 
+  const openChangePasswordModalHandler = (e) => {
+    e.preventDefault()
+    console.log("aaaaaaaaaaa");
+    setOpenChangePassword(true);
+  };
+
+const onSubmitChangePasswordHandler = e =>{
+  e.preventDefault()
+  console.log(enterPasswordChangePassword);
+  if (!validatePassword(enterPasswordChangePassword)) {
+    setIsError({
+      title: "Invalid password format",
+      message:
+        "Password must contain one capital letter, one special character, one number and at least 8 characters",
+    });
+    return;
+  }
+  // fetch("http://localhost:4000/api/user/updatePassword", {
+      fetch("https://eschool-pw0m.onrender.com/api/user/updatePassword", {
+
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        email: user.email,
+        password : enterPasswordChangePassword
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resolve) => resolve.json())
+      .then((data) => {
+        // console.log(data[0]);
+        setMessage(data.message)
+        setTimeout(() => {
+          setMessage("")
+        }, 2000);
+      });
+  setEnterPasswordChangePassword("")
+  setTimeout(() => {
+    
+    setOpenChangePassword(false)
+  }, 3000);
+}
   return (
     <>
+    {isError && (<OpenModal
+    title={isError.title}
+    body={isError.message}
+    show={isError}
+    onHide={()=>setIsError(null)}
+    ></OpenModal>)}
+      {openChangePassword && (
+        <OpenModal
+          title="Change password"
+          show={openChangePassword}
+          body={
+            <form onSubmit={onSubmitChangePasswordHandler}>
+              <input
+                type="text"
+                value={enterPasswordChangePassword}
+                onChange={eneterPasswordChangePasswordOnChange}
+                ref={enteredPasswordChangePasswordRef}
+                placeholder="Enter new password"
+              ></input>
+              <Button type="submit">Submit</Button>
+            </form>
+          }
+          message={message}
+          onHide={() => setOpenChangePassword(false)}
+        ></OpenModal>
+      )}
       {addGrade && (
         <OpenModal
           title="Add new Grade"
@@ -333,9 +436,16 @@ const Profile = (props) => {
             justify={true}
           >
             <Tab eventKey="profile" title="Profile">
+              <br></br>
               <ul>
+                <h2>Profile</h2>
                 <li key={profile ? profile.id : 1}>
-                  <h2>Profile</h2>
+                  <br></br>
+                  <img
+                    src={url}
+                    className={classes.profile_img}
+                    alt="profile picure"
+                  ></img>
                   <br></br>
                   Name :{" "}
                   {profile ? `${profile.firstName}  ${profile.lastName}` : ""}
@@ -346,10 +456,18 @@ const Profile = (props) => {
                   <br></br>
                 </li>
               </ul>{" "}
+              <div className={classes.btns}>
+                <Button onClick={uploadFileHandler}>Upload picture</Button>
+                <Button onClick={openChangePasswordModalHandler}>
+                  Change password
+                </Button>
+              </div>
             </Tab>
             <Tab eventKey="classes" title="Classes">
+              <br></br>
+              <h1 className="headingAdminPanel">Classes</h1>
+              <br></br>
               <Accordion>
-                <h1>Classes</h1>
                 {profile
                   ? profile.classes.map((classItem) => (
                       <Accordion.Item eventKey={classItem.id}>
@@ -358,6 +476,8 @@ const Profile = (props) => {
                         </Accordion.Header>
                         <hr></hr>
                         <Accordion.Body>
+                          <h2 className="headingAdminPanel">Students</h2>
+                          <br></br>
                           {students
                             ? students.map((student) => {
                                 return student.classes.map((schoolClass) => {
@@ -437,7 +557,6 @@ const Profile = (props) => {
                                                 <div>
                                                   <div>
                                                     <h2>Notes</h2>
-                                                   
                                                   </div>
 
                                                   <ul>
@@ -455,29 +574,37 @@ const Profile = (props) => {
                                                             >
                                                               {note.id}.{" "}
                                                               {note.note}{" "}
-                                                             <span style={{color : "red", fontSize:"smaller", float:"right"}}>  Created:{" "}
-                                                              {new Date(
-                                                                note.createdAt
-                                                              ).toLocaleDateString(
-                                                                "en-us",
-                                                                {
-                                                                  year: "numeric",
-                                                                  month:
-                                                                    "short",
-                                                                  day: "numeric",
-                                                                }
-                                                              )}
+                                                              <span
+                                                                style={{
+                                                                  color: "red",
+                                                                  fontSize:
+                                                                    "smaller",
+                                                                  float:
+                                                                    "right",
+                                                                }}
+                                                              >
+                                                                {" "}
+                                                                Created:{" "}
+                                                                {new Date(
+                                                                  note.createdAt
+                                                                ).toLocaleDateString(
+                                                                  "en-us",
+                                                                  {
+                                                                    year: "numeric",
+                                                                    month:
+                                                                      "short",
+                                                                    day: "numeric",
+                                                                  }
+                                                                )}
                                                               </span>
                                                             </li>
-
                                                           );
-                                                          
                                                         }
                                                       )
                                                     ) : (
                                                       <li>No notes ... </li>
                                                     )}
-                                                     <Button
+                                                    <Button
                                                       onClick={
                                                         clickedAddNoteHandler
                                                       }
