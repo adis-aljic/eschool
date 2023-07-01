@@ -393,7 +393,7 @@ const ListCurriculum = (props) => {
         {pdf ? (
           <PdfFormPreview
             onClick={pdfHandler}
-            pdfUrl={pdfForm}
+            pdfUrl='https://cdn.filestackcontent.com/gRFZaOdnRtewMBprTRa4'
             formData={formData}
           ></PdfFormPreview>
         ) : (

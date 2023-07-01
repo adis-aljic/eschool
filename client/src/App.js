@@ -78,7 +78,7 @@ function App() {
               ctx.navigation === 'home' &&  ctx.user.role === "teacher"  && (
                 <div className='container'>
 
-                <div class="row">
+                <div className="row">
                     <div className="col-md-6 ">
                     <ListNews ></ListNews>
 

@@ -37,6 +37,7 @@ const enteredPasswordChangePasswordRef = useRef();
 const deactivateProfilOpenModalHandler = () => setDeactivateProfile(true)
 const deactivateProfilOpenModalCloseHandler = () => setDeactivateProfile(false)
   const ctx = useContext(AuthContex);
+  console.log(url);
 if(!url){
   setUrl(avatar)
 }
