@@ -1,9 +1,10 @@
 import { useRef, useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
 import PSPDFKit from "pspdfkit"
+// import file from "https://cdn.filestackcontent.com/gRFZaOdnRtewMBprTRa4"
 const PdfFormPreview = (props) => {
-    const containerRef = useRef(null);
-    console.log(props.formData);
+  const containerRef = useRef(null);
+
     // const { pdfUrl, formData } = props.obj
     useEffect(() => {
       const loadPdf = async () => {
@@ -11,8 +12,8 @@ const PdfFormPreview = (props) => {
           container: containerRef.current,
           document: "https://cdn.filestackcontent.com/gRFZaOdnRtewMBprTRa4",
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`
-
         });
+        console.log(baseUrl);
             console.log(props.formData);
     //    await instance.setFormFieldValue(JSON.stringify(props.formData));
            instance.getFormFields()
