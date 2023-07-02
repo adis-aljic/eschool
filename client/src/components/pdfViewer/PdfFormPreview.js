@@ -13,8 +13,6 @@ const PdfFormPreview = (props) => {
           document: "https://cdn.filestackcontent.com/gRFZaOdnRtewMBprTRa4",
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`
         });
-        console.log(baseUrl);
-            console.log(props.formData);
     //    await instance.setFormFieldValue(JSON.stringify(props.formData));
            instance.getFormFields()
     // then(() => {
