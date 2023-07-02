@@ -345,7 +345,7 @@ const onSubmitChangePasswordHandler = e =>{
 
                           {info.notes
                             ? (info.notes.map((note) => {
-                              <li>
+                           return   (<li>
                                 {note.note} <sub style={{float: "right"}}>Created:  {new Date(
                                   note.createdAt
                                   ).toLocaleDateString(
@@ -357,7 +357,7 @@ const onSubmitChangePasswordHandler = e =>{
                                       day: "numeric",
                                     }
                                     )}</sub>
-                              </li>
+                              </li>)
                             })) : " No notes"}
                                   </ul>
                         </div>
