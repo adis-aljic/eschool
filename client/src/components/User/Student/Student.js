@@ -339,23 +339,28 @@ const onSubmitChangePasswordHandler = e =>{
                         </p>
 
                         <br></br>
-                        <p >
+                        <div>
                           <h3>Notes</h3>
+                          <ul>
+
                           {info.notes
-                            ? info.notes.map((note) => `${note.note}   Created: ${
-                              new Date(
-                              note.createdAt
-                            ).toLocaleDateString(
-                              "en-us",
-                              {
-                                year: "numeric",
-                                month:
-                                  "short",
-                                day: "numeric",
-                              }
-                            )}` ).join(" \n")
-                            : " No notes"}
-                        </p>
+                            ? (info.notes.map((note) => {
+                              <li>
+                                {note.note} <sub style={{float: "right"}}>Created:  {new Date(
+                                  note.createdAt
+                                  ).toLocaleDateString(
+                                    "en-us",
+                                    {
+                                      year: "numeric",
+                                      month:
+                                      "short",
+                                      day: "numeric",
+                                    }
+                                    )}</sub>
+                              </li>
+                            })) : " No notes"}
+                                  </ul>
+                        </div>
                         <br></br>
                         {infoData.map((obj) => {
                           return obj.code === schoolClass.abbrevation ? (
