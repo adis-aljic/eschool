@@ -9,7 +9,7 @@ const PdfFormPreview = (props) => {
       const loadPdf = async () => {
         const instance = await PSPDFKit.load({
           container: containerRef.current,
-          document: props.pdfUrl,
+          document: "https://cdn.filestackcontent.com/gRFZaOdnRtewMBprTRa4",
           baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`
 
         });
@@ -31,7 +31,7 @@ const PdfFormPreview = (props) => {
       
       return () => unload
 
-    }, [props.pdfUrl, props.formData]);
+    }, [ props.formData]);
     
     // problem with clean up use effect
 
